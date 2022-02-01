@@ -1,32 +1,29 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div class="min-h-screen grid grid-rows-[auto,1fr,auto]">
+    <!-- Navbar -->
+    <navbar />
+
+    <!-- Content -->
+    <div class="container mx-auto p-5">
+      <router-view />
     </div>
-    <router-view />
+
+    <!-- Footer -->
+    <footerBar />
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+// @ is an alias to /src
+// import HelloWorld from "@/components/HelloWorld.vue";
+import navbar from "./components/Layouts/Navbar.vue";
+import footerBar from "./components/Layouts/Footerbar.vue";
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+export default {
+  components: {
+    navbar,
+    footerBar,
+  },
+  name: "App",
+};
+</script>
