@@ -84,6 +84,11 @@
 				</div>
 				<div>
 					<form @submit.prevent="onSubmit">
+						<div class="mb-7">
+							<p v-if="$v.$anyError" class="errorMessage">
+								Please fill out the required fields
+							</p>
+						</div>
 						<div class="grid grid-cols-1 gap-4">
 							<label class="block">
 								<span class="text-gray-700">Korbitec Generation Fee</span>
@@ -169,9 +174,6 @@
 								>
 									Save
 								</button>
-								<p v-if="$v.$anyError" class="errorMessage">
-									Please fill out the required fields
-								</p>
 							</label>
 						</div>
 					</form>
@@ -224,7 +226,7 @@
 				electronic_ins_fee: {
 					required,
 					minLength: minLength(3),
-					numeric,
+					decimal,
 				},
 			},
 		},

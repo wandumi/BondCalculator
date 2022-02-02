@@ -89,15 +89,18 @@
 				</div>
 			</form>
 		</div>
-		<div class="mt-10">
-			<p>{{ bond }}</p>
-			<hr />
-			<br />
-
-			<span> Purchase </span>
-			<p>{{ purchase }}</p>
-			<hr />
-			<br />
+		<div class="mt-8">
+			<div class="mb-4">
+				<h3 class="text-xl text-black font-bold pb-2">Purchase Price</h3>
+				<p>Tranfer Duty : {{ transferDuty }}</p>
+				<p>Vat Amount : {{ totalVatPurchase }}</p>
+				<p>Total Purchase Price: {{ totalTransferCost }}</p>
+			</div>
+			<div>
+				<h3 class="text-xl text-black font-bold pb-2">Bond Cost</h3>
+				<p>Vat Amount : {{ totalVatBond }}</p>
+				<p>Total Purchase Price: {{ totalBondCost }}</p>
+			</div>
 		</div>
 	</div>
 </template>
@@ -109,11 +112,20 @@
 	export default {
 		name: "CalculatorForm",
 		created() {
+			// defaultSettings
+			axios
+				.get("http://127.0.0.1:8000/api/default_settings")
+				.then((response) => {
+					this.defaultData = response.data.data;
+				})
+				.catch((errors) => {
+					console.log("There was and error" + errors);
+				});
 			// bondSettings
 			axios
 				.get("http://127.0.0.1:8000/api/bond_settings")
 				.then((response) => {
-					this.bond = response.data.data;
+					this.bondData = response.data.data;
 				})
 				.catch((errors) => {
 					console.log("There was and error" + errors);
@@ -121,9 +133,9 @@
 
 			// purchaseSettings
 			axios
-				.get("http://127.0.0.1:8000/api/purchase_price_settings")
+				.get("http://127.0.0.1:8000/api/purchase_settings")
 				.then((response) => {
-					this.purchase = response.data.data;
+					this.purchaseData = response.data.data;
 				})
 				.catch((errors) => {
 					console.log("There was and error" + errors);
@@ -135,36 +147,36 @@
 
 		data() {
 			return {
-				bond: "",
-				purchase: "",
+				bondData: "",
+				purchaseData: "",
+				defaultData: "",
 				bondForm: {
 					purchase_price: "",
 					bond_amount: "",
 					interest_rate: "",
 				},
 
-				vat_amount: 15,
-				start_amount: 0,
-				end_amount: 0,
+				// default settings
+				defaultSettings: {
+					vat_amount: 0,
+					deeds_office: 0,
+					tarrif_fee: 0,
+					post_petties: 0,
+					search_fee: 0,
+				},
 
 				// Specific to the entity transfer cost
 				bondSettings: {
-					deeds_office: 0,
-					tarif_fee: 0,
-					search_fee: 0,
-					korbitec_gen_fee: 1200,
-					post_petties: 0,
-					rate_application: 0,
+					electronic_ins_fee: 0,
+					korbitec_gen_fee: 0,
 				},
 
 				// Specific to the entity bond cost
 				purchaseSettings: {
-					tarrif_fee: 0,
-					post_petties: 0,
-					search_fee: 0,
-					deeds_office: 0,
-					korbitec_gen_fee: 1200,
-					electronic_fee: 0,
+					start_amount: 0,
+					end_amount: 0,
+					rate_applications: 0,
+					korbitec_gen_fee: 0,
 				},
 			};
 		},
@@ -190,103 +202,242 @@
 		},
 		methods: {},
 		computed: {
-			// settings
-			setSettings() {},
+			// set default
+			setDefault() {
+				for (let i = 0; i < this.defaultData.length; i++) {
+					let deeds_office = this.defaultData[i].deeds_office;
+					let search_fee = this.defaultData[i].search_fee;
+					let tarrif_fee = this.defaultData[i].tarrif_fee;
+					let post_petties = this.defaultData[i].post_petties;
+
+					// set the values
+					this.defaultSettings.vat_amount = vat_amount;
+					this.defaultSettings.deeds_office = deeds_office;
+					this.defaultSettings.search_fee = search_fee;
+					this.defaultSettings.tarrif_fee = tarrif_fee;
+					this.defaultSettings.post_petties = post_petties;
+				}
+			},
+
 			// set bond
 			setBondSettings() {
 				// console.log(Array.isArray(this.bond));
-				for (let i = 0; i < this.bond.length; i++) {
-					const element = this.bond[i].post_petties;
-					let post_petties = this.bond[i].post_petties;
-					let search_fee = this.bond[i].search_fee;
-					let rates_application = this.bond[i].rates_application;
+				for (let i = 0; i < this.bondData.length; i++) {
+					const element = this.bondData[i].electronic_ins_fee;
+					// set a variables
+					let electronic_ins_fee = this.bondData[i].electronic_ins_fee;
+					let korbitec_gen_fee = this.bondData[i].korbitec_gen_fee;
 
-					this.bondSettings.post_petties = post_petties;
-					this.bondSettings.search_fee = search_fee;
-					this.bondSettings.rates_application = rates_application;
+					// pass variables
+					this.bondSettings.electronic_ins_fee = electronic_ins_fee;
+					this.bondSettings.korbitec_gen_fee = korbitec_gen_fee;
 				}
 			},
 
 			// set purchase
 			setPurchaseSettings() {
 				// console.log(Array.isArray(this.bond));
-				for (let i = 0; i < this.purchase.length; i++) {
-					const element = this.purchase[i].Tarrif_fee;
-					console.log("tarrif fee " + element);
+				for (let i = 0; i < this.purchaseData.length; i++) {
+					const element = this.purchaseData[i].start_amount;
 
-					let start_amount = this.purchase[i].Start_amount;
-					let end_amount = this.purchase[i].End_amount;
-					let tarrif_fee = this.purchase[i].Tarrif_fee;
-					let deeds_office = this.purchase[i].Deeds_office;
+					let start_amount = this.purchaseData[i].start_amount;
+					let end_amount = this.purchaseData[i].end_amount;
+					let rate_applications = this.purchaseData[i].rate_applications;
+					let korbitec_gen_fee = this.purchaseData[i].korbitec_gen_fee;
 
 					this.purchaseSettings.start_amount = start_amount;
 					this.purchaseSettings.end_amount = end_amount;
-					this.purchaseSettings.tarrif_fee = tarrif_fee;
-					this.purchaseSettings.deeds_office = deeds_office;
+					this.purchaseSettings.rate_applications = rate_applications;
+					this.purchaseSettings.korbitec_gen_fee = korbitec_gen_fee;
 				}
 			},
 
 			// Transfer Calculations
 			transferDuty() {
+				let vat;
+
+				for (let i = 0; i < this.defaultData.length; i++) {
+					const element = this.defaultData[i];
+					vat = element.vat_amount;
+				}
+
+				// console.log("the vat amount is " + vat);
 				// const =((A6-1250000)*0,06)+10500
 				const transferDuty =
-					parseInt((this.bondForm.purchase_price - 1250000) * 0.06) + 10500;
+					parseInt((this.bondForm.purchase_price - 1250000) * vat) + 10500;
 
 				return transferDuty;
 			},
 
-			vatCalculations() {
-				const transfer_cost_vat =
-					this.transferCost.tarif_fee +
-					this.transferCost.search_fee +
-					this.transferCost.korbitec_gen_fee +
-					this.transferCost.post_petties;
-				// return transfer_cost_vat;
-				return parseFloat((transfer_cost_vat * this.vat_amount) / 100);
+			totalVatPurchase() {
+				// values
+				let vat = 15;
+				let tarrif_fee;
+				let search_fee;
+				let korbitec_gen_fee = 400;
+				let post_petties;
+
+				// default values
+				for (let i = 0; i < this.defaultData.length; i++) {
+					const element = this.defaultData[i];
+
+					// vat = element.vat_amount;
+					tarrif_fee = element.tarrif_fee;
+					search_fee = element.search_fee;
+					post_petties = element.post_petties;
+				}
+
+				let flotTarrif = parseFloat(tarrif_fee);
+				let flotsearch = parseFloat(search_fee);
+				let flotkorbitec = parseFloat(korbitec_gen_fee);
+				let flotpost = parseFloat(post_petties);
+
+				const totalCost = flotTarrif + flotsearch + flotkorbitec + flotpost;
+
+				// return totalCost;
+				return Number((totalCost * vat) / 100);
 			},
 
 			totalTransferCost() {
-				return (
-					this.transferDuty +
-					this.vatCalculations +
-					this.transferCost.tarif_fee +
-					this.transferCost.deeds_office +
-					this.transferCost.search_fee +
-					this.transferCost.korbitec_gen_fee +
-					this.transferCost.post_petties +
-					this.transferCost.rate_application
-				);
+				// values
+				let vat = 15;
+				let tarrif_fee;
+				let search_fee;
+				let post_petties;
+				let korbitec_gen_fee;
+				let rate_application;
+				let deeds_office;
+
+				// default values
+				for (let i = 0; i < this.defaultData.length; i++) {
+					const element = this.defaultData[i];
+
+					// vat = element.vat_amount;
+					tarrif_fee = element.tarrif_fee;
+					search_fee = element.search_fee;
+					post_petties = element.post_petties;
+					deeds_office = element.deeds_office;
+				}
+
+				// purchase values
+				for (let i = 0; i < this.purchaseData.length; i++) {
+					const element = this.purchaseData[i];
+
+					korbitec_gen_fee = element.korbitec_gen_fee;
+					rate_application = element.rate_applications;
+				}
+
+				let flottarrif = parseFloat(tarrif_fee);
+				let flotsearch = parseFloat(search_fee);
+				let flotkorbitec = parseFloat(korbitec_gen_fee);
+				let flotpost = parseFloat(post_petties);
+				let flotrate = parseFloat(rate_application);
+				let flotdeeds = parseFloat(deeds_office);
+
+				const total =
+					flottarrif +
+					flotsearch +
+					flotkorbitec +
+					flotpost +
+					flotrate +
+					flotdeeds;
+
+				return this.totalVatPurchase + this.transferDuty + total;
 			},
 
-			// Bond Caculations
-			bondDuty() {
-				// const =((A6-1250000)*0,06)+10500
-				const transferDuty =
-					parseInt((this.bondForm.purchase_price - 1250000) * 0.06) + 10500;
+			// bond Vat
+			totalVatBond() {
+				// values
+				let vat = 15;
+				let tarrif_fee;
+				let search_fee;
+				let korbitec_gen_fee;
+				let electronic_ins_fee;
+				let post_petties;
 
-				return transferDuty;
-			},
+				// default values
+				for (let i = 0; i < this.defaultData.length; i++) {
+					const element = this.defaultData[i];
 
-			vatBondCalculations() {
-				const transfer_cost_vat =
-					this.bondCost.tarif_fee +
-					this.bondCost.search_fee +
-					this.bondCost.korbitec_gen_fee +
-					this.bondCost.electronic_fee +
-					this.bondCost.post_petties;
+					// vat = element.vat_amount;
+					tarrif_fee = element.tarrif_fee;
+					search_fee = element.search_fee;
+					post_petties = element.post_petties;
+					electronic_ins_fee = element.electronic_ins_fee;
+				}
+
+				// bond values
+				for (let i = 0; i < this.bondData.length; i++) {
+					const element = this.bondData[i];
+
+					// vat = element.vat_amount;
+					korbitec_gen_fee = element.korbitec_gen_fee;
+					electronic_ins_fee = element.electronic_ins_fee;
+				}
+
+				let flotTarrif = parseFloat(tarrif_fee);
+				let flotsearch = parseFloat(search_fee);
+				let flotpost = parseFloat(post_petties);
+				let flotkorbitec = parseFloat(korbitec_gen_fee);
+				let flotelectronic = parseFloat(electronic_ins_fee);
+
+				const bondVatTotal =
+					flotTarrif + flotsearch + flotkorbitec + flotpost + flotelectronic;
+
+				return (bondVatTotal * vat) / 100;
+
 				// return transfer_cost_vat;
 				return parseFloat((transfer_cost_vat * this.vat_amount) / 100);
 			},
+
+			// Total for Bond Cost
 			totalBondCost() {
-				return (
-					this.vatBondCalculations +
-					this.bondCost.tarif_fee +
-					this.bondCost.search_fee +
-					this.bondCost.korbitec_gen_fee +
-					this.bondCost.post_petties +
-					this.bondCost.deeds_office +
-					this.bondCost.electronic_fee
-				);
+				// values
+				let vat = 15;
+				let tarrif_fee;
+				let search_fee;
+				let post_petties;
+				let deeds_office;
+				let korbitec_gen_fee;
+				let electronic_ins_fee;
+
+				// default values
+				for (let i = 0; i < this.defaultData.length; i++) {
+					const element = this.defaultData[i];
+
+					// vat = element.vat_amount;
+					tarrif_fee = element.tarrif_fee;
+					search_fee = element.search_fee;
+					post_petties = element.post_petties;
+					deeds_office = element.deeds_office;
+				}
+
+				// bond values
+				for (let i = 0; i < this.bondData.length; i++) {
+					const element = this.bondData[i];
+
+					korbitec_gen_fee = element.korbitec_gen_fee;
+					electronic_ins_fee = element.electronic_ins_fee;
+				}
+
+				let flottarrif = parseFloat(tarrif_fee);
+				let flotsearch = parseFloat(search_fee);
+				let flotpost = parseFloat(post_petties);
+				let flotdeeds = parseFloat(deeds_office);
+				let flotkorbitec = parseFloat(korbitec_gen_fee);
+				let flotelectronic = parseFloat(electronic_ins_fee);
+
+				const bondCost =
+					this.totalVatBond +
+					flottarrif +
+					flotsearch +
+					flotpost +
+					flotdeeds +
+					flotkorbitec +
+					flotelectronic;
+
+				// return transfer_cost_vat;
+				return bondCost;
 			},
 		},
 	};

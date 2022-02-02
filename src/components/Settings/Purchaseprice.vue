@@ -102,6 +102,11 @@
 				</div>
 				<div>
 					<form @submit.prevent="onSubmit">
+						<div class="mb-7">
+							<p v-if="$v.$anyError" class="errorMessage">
+								Please fill out the required fields
+							</p>
+						</div>
 						<div class="grid grid-cols-1 gap-4">
 							<!-- Start Amount -->
 							<label class="block">
@@ -269,9 +274,6 @@
 								>
 									Save
 								</button>
-								<p v-if="$v.$anyError" class="errorMessage">
-									Please fill out the required fields
-								</p>
 							</label>
 						</div>
 					</form>
@@ -290,7 +292,7 @@
 
 		created() {
 			axios
-				.get("http://127.0.0.1:8000/api/purchase_price_settings")
+				.get("http://127.0.0.1:8000/api/purchase_settings")
 				.then((response) => {
 					this.transferData = response.data.data;
 					console.log(response.data.data);
@@ -341,7 +343,7 @@
 				if (!this.$v.$invalid) {
 					axios
 						.post(
-							"http://127.0.0.1:8000/api/purchase_price_settings",
+							"http://127.0.0.1:8000/api/purchase_settings",
 							this.transferSettings
 						)
 						.then((response) => {
