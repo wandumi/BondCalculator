@@ -34,6 +34,18 @@
 										scope="col"
 										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 									>
+										Vat amount
+									</th>
+									<th
+										scope="col"
+										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+									>
+										Value Number
+									</th>
+									<th
+										scope="col"
+										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+									>
 										Rate Applications
 									</th>
 									<th
@@ -60,24 +72,32 @@
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="text-sm text-gray-500">
-												{{ transfer.start_amount }}
+												{{ transfer.start_amount | money }}
 											</div>
 										</div>
 									</td>
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="text-sm text-gray-500">
-											{{ transfer.end_amount }}
+											{{ transfer.end_amount | money }}
 										</div>
+									</td>
+									<td class="px-6 py-4 whitespace-nowrap">
+										<div class="text-sm text-gray-500">
+											{{ transfer.vat_amount | money }}
+										</div>
+									</td>
+									<td class="px-6 py-4 whitespace-nowrap">
+										<div class="text-sm text-gray-500">125,0000.00</div>
 									</td>
 									<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 										<div class="text-sm text-gray-500">
-											{{ transfer.rate_applications }}
+											{{ transfer.rate_applications | money }}
 										</div>
 									</td>
 
 									<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 										<div class="text-sm text-gray-500">
-											{{ transfer.korbitec_gen_fee }}
+											{{ transfer.korbitec_gen_fee | money }}
 										</div>
 									</td>
 									<td
@@ -176,6 +196,43 @@
 									<p
 										class="text-red-600 text-sm p-2 rounded-md"
 										v-show="!$v.transferSettings.end_amount.numeric"
+									>
+										It only accepts numbers
+									</p>
+								</div>
+							</label>
+
+							<!-- End Amount -->
+							<label class="block">
+								<span class="text-gray-700">Vat Amount</span>
+								<input
+									type="text"
+									class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+									placeholder="End value of the amount"
+									v-model.trim="$v.transferSettings.vat_amount.$model"
+									@blur="$v.transferSettings.vat_amount.$touch()"
+									:class="{ error: $v.transferSettings.vat_amount.$error }"
+								/>
+								<div v-if="$v.transferSettings.vat_amount.$error">
+									<p
+										class="text-red-600 text-sm p-2 rounded-md"
+										v-if="!$v.transferSettings.vat_amount.required"
+									>
+										Please enter a End Amount
+									</p>
+
+									<p
+										class="text-red-600 text-sm p-2 rounded-md"
+										v-if="!$v.transferSettings.vat_amount.minLength"
+									>
+										Name must have at least
+										{{ $v.transferSettings.vat_amount.$params.minLength.min }}
+										numbers.
+									</p>
+
+									<p
+										class="text-red-600 text-sm p-2 rounded-md"
+										v-show="!$v.transferSettings.vat_amount.numeric"
 									>
 										It only accepts numbers
 									</p>
@@ -308,6 +365,7 @@
 				transferSettings: {
 					start_amount: "",
 					end_amount: "",
+					vat_amount: "",
 					rate_applications: "",
 					korbitec_gen_fee: "",
 				},
@@ -321,6 +379,11 @@
 					decimal,
 				},
 				end_amount: {
+					required,
+					minLength: minLength(4),
+					decimal,
+				},
+				vat_amount: {
 					required,
 					minLength: minLength(4),
 					decimal,

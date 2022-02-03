@@ -10,8 +10,25 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
 
+// format currencies
+Vue.filter("moneyCurrency", function (value) {
+	const formatter = new Intl.NumberFormat("en", {
+		style: "currency",
+		currency: "ZAR",
+	});
+	return formatter.format(value);
+});
+
+Vue.filter("money", function (value) {
+	const formatter = new Intl.NumberFormat("en", {
+		// style: "currency",
+		// currency: "ZAR",
+	});
+	return formatter.format(value);
+});
+
 new Vue({
-  router,
-  store,
-  render: (h) => h(App),
+	router,
+	store,
+	render: (h) => h(App),
 }).$mount("#app");

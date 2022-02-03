@@ -22,6 +22,18 @@
 										scope="col"
 										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 									>
+										Purchase price range
+									</th>
+									<th
+										scope="col"
+										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+									>
+										Vat Amount
+									</th>
+									<th
+										scope="col"
+										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+									>
 										korbitec generation fee
 									</th>
 									<th
@@ -50,15 +62,29 @@
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="ml-4">
+												<div class="text-sm text-gray-500">-------</div>
+											</div>
+										</div>
+									</td>
+									<td class="px-6 py-4 whitespace-nowrap">
+										<div class="flex items-center">
+											<div class="ml-4">
+												<div class="text-sm text-gray-500">0.06</div>
+											</div>
+										</div>
+									</td>
+									<td class="px-6 py-4 whitespace-nowrap">
+										<div class="flex items-center">
+											<div class="ml-4">
 												<div class="text-sm text-gray-500">
-													{{ bond.korbitec_gen_fee }}
+													{{ bond.korbitec_gen_fee | money }}
 												</div>
 											</div>
 										</div>
 									</td>
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="text-sm text-gray-500">
-											{{ bond.electronic_ins_fee }}
+											{{ bond.electronic_ins_fee | money }}
 										</div>
 									</td>
 
@@ -90,6 +116,20 @@
 							</p>
 						</div>
 						<div class="grid grid-cols-1 gap-4">
+							<!-- This is an example component -->
+							<label class="block">
+								<span class="text-gray-700">Purchase Price</span>
+								<select
+									class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+								>
+									<option>Choose a value</option>
+									<option v-for="purchase in purchaseData" :key="purchase.id">
+										{{ purchase.start_amount }} - {{ purchase.end_amount }}
+									</option>
+								</select>
+							</label>
+
+							<!-- Korbitec -->
 							<label class="block">
 								<span class="text-gray-700">Korbitec Generation Fee</span>
 								<input
@@ -205,11 +245,21 @@
 				.catch((errors) => {
 					console.log("There was and error" + errors);
 				});
+			axios
+				.get("http://127.0.0.1:8000/api/purchase_settings")
+				.then((response) => {
+					this.purchaseData = response.data.data;
+					console.log(response.data.data);
+				})
+				.catch((errors) => {
+					console.log("There was and error" + errors);
+				});
 		},
 
 		data() {
 			return {
 				bondData: "",
+				purchaseData: "",
 				bondSettings: {
 					korbitec_gen_fee: "",
 					electronic_ins_fee: "",

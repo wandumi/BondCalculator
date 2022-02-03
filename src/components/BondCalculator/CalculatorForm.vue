@@ -92,14 +92,15 @@
 		<div class="mt-8">
 			<div class="mb-4">
 				<h3 class="text-xl text-black font-bold pb-2">Purchase Price</h3>
-				<p>Tranfer Duty : {{ transferDuty }}</p>
-				<p>Vat Amount : {{ totalVatPurchase }}</p>
-				<p>Total Purchase Price: {{ totalTransferCost }}</p>
+				<p>Tranfer Duty : {{ transferDuty | moneyCurrency }}</p>
+				<p>Vat Amount : {{ totalVatPurchase | moneyCurrency }}</p>
+				<p>Total Purchase Price: {{ totalTransferCost | moneyCurrency }}</p>
 			</div>
 			<div>
 				<h3 class="text-xl text-black font-bold pb-2">Bond Cost</h3>
-				<p>Vat Amount : {{ totalVatBond }}</p>
-				<p>Total Purchase Price: {{ totalBondCost }}</p>
+				<p>Bond Cost: {{ bondCost | moneyCurrency }}</p>
+				<p>Vat Amount : {{ totalVatBond | moneyCurrency }}</p>
+				<p>Total Purchase Price: {{ totalBondCost | moneyCurrency }}</p>
 			</div>
 		</div>
 	</div>
@@ -175,6 +176,7 @@
 				purchaseSettings: {
 					start_amount: 0,
 					end_amount: 0,
+					vat_amount: 0,
 					rate_applications: 0,
 					korbitec_gen_fee: 0,
 				},
@@ -242,29 +244,31 @@
 
 					let start_amount = this.purchaseData[i].start_amount;
 					let end_amount = this.purchaseData[i].end_amount;
+					let vat_amount = this.purchaseData[i].vat_amount;
 					let rate_applications = this.purchaseData[i].rate_applications;
 					let korbitec_gen_fee = this.purchaseData[i].korbitec_gen_fee;
 
 					this.purchaseSettings.start_amount = start_amount;
 					this.purchaseSettings.end_amount = end_amount;
+					this.purchaseSettings.vat_amount = vat_amount;
 					this.purchaseSettings.rate_applications = rate_applications;
 					this.purchaseSettings.korbitec_gen_fee = korbitec_gen_fee;
 				}
 			},
 
+			/**Purchase */
 			// Transfer Calculations
 			transferDuty() {
 				let vat;
 
-				for (let i = 0; i < this.defaultData.length; i++) {
-					const element = this.defaultData[i];
+				for (let i = 0; i < this.purchaseData.length; i++) {
+					const element = this.purchaseData[i];
 					vat = element.vat_amount;
 				}
 
-				// console.log("the vat amount is " + vat);
 				// const =((A6-1250000)*0,06)+10500
 				const transferDuty =
-					parseInt((this.bondForm.purchase_price - 1250000) * vat) + 10500;
+					parseFloat((this.bondForm.purchase_price - 1250000) * vat) + 10500;
 
 				return transferDuty;
 			},
@@ -345,6 +349,22 @@
 				return this.totalVatPurchase + this.transferDuty + total;
 			},
 
+			/**Bond */
+			// Bond Cost
+			bondCost() {
+				let vat;
+
+				for (let i = 0; i < this.purchaseData.length; i++) {
+					const element = this.purchaseData[i];
+					vat = element.vat_amount;
+				}
+
+				// const =((A6-1250000)*0,06)+10500
+				const bondCost =
+					parseFloat((this.bondForm.bond_amount - 1250000) * vat) + 10500;
+
+				return bondCost;
+			},
 			// bond Vat
 			totalVatBond() {
 				// values
@@ -385,15 +405,12 @@
 					flotTarrif + flotsearch + flotkorbitec + flotpost + flotelectronic;
 
 				return (bondVatTotal * vat) / 100;
-
-				// return transfer_cost_vat;
-				return parseFloat((transfer_cost_vat * this.vat_amount) / 100);
 			},
 
 			// Total for Bond Cost
 			totalBondCost() {
-				// values
-				let vat = 15;
+				// // values
+				// let vat = 15;
 				let tarrif_fee;
 				let search_fee;
 				let post_petties;
