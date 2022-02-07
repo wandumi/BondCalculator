@@ -3,22 +3,14 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+import state from "./state";
+import * as getters from "./getters";
+import * as actions from "./actions";
+import * as mutations from "./mutations";
+
 export default new Vuex.Store({
-  state: {
-    calculate_bond: [
-      {
-        purchase_price: "",
-        bond_amount: "",
-        interest_rate: "",
-        repayment_term: "",
-      },
-    ],
-  },
-  mutations: {
-    updateBond(currentState, bond) {
-      currentState.calculate_bond = bond;
-    },
-  },
-  actions: {},
-  modules: {},
+	state,
+	mutations,
+	actions,
+	getters,
 });

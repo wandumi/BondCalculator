@@ -110,8 +110,15 @@
 	// import BaseInput from "../Base/BaseInput.vue";
 	import { required, minLength, numeric } from "vuelidate/lib/validators";
 	import axios from "axios";
+	import { mapActions, mapGetters, mapState } from "vuex";
 	export default {
 		name: "CalculatorForm",
+		mounted() {
+			// get default data
+			this.getDefaultData();
+			this.getBondData();
+			this.getPurchaseData();
+		},
 		created() {
 			// defaultSettings
 			axios
@@ -151,6 +158,7 @@
 				bondData: "",
 				purchaseData: "",
 				defaultData: "",
+
 				bondForm: {
 					purchase_price: "",
 					bond_amount: "",
@@ -202,8 +210,21 @@
 				},
 			},
 		},
-		methods: {},
+
+		methods: {
+			...mapActions({
+				getDefaultData: "getDefaultData",
+				getBondData: "getBondData",
+				getPurchaseData: "getPurchaseData",
+			}),
+		},
 		computed: {
+			...mapGetters({
+				getDefaults: "getDefaults",
+				getBonds: "getBonds",
+				getPurchase: "getPurchase",
+				purchaseDuty: "purchaseDuty",
+			}),
 			// set default
 			setDefault() {
 				for (let i = 0; i < this.defaultData.length; i++) {
