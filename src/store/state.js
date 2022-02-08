@@ -1,8 +1,15 @@
 export default {
 	// Bond State
-	bondData: "",
+	bondData: [],
 	// Transfer State
-	purchaseData: "",
+	purchaseData: [],
 	// Default State
-	defaultData: "",
+	defaultData: [],
+
+	/**Transfer Cost */
+	transferDuty: "",
+	vatCharge: "",
+	totalPurchase: "",
+
+	/**Bond Cost */
 };

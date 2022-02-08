@@ -14,3 +14,19 @@ export const setBondData = (state, bonds) => {
 export const setPurchaseData = (state, purchase) => {
 	state.purchaseData = purchase;
 };
+
+/**Set the Purchase */
+// set the Total purchase
+export const TOTAL_PURCHASE = (state, total) => {
+	state.totalPurchase = total;
+};
+
+// set the Vat Charge
+export const VAT_CHARGE = (state, total) => {
+	state.vatCharge = total;
+};
+
+// set the transferDuty
+export const TRANSFER_COST = (state, total) => {
+	state.transferDuty = total;
+};

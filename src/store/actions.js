@@ -14,7 +14,7 @@ export const getDefaultData = ({ commit }) => {
 		.get("http://127.0.0.1:8000/api/default_settings")
 		.then((response) => {
 			commit("setDefaultData", response.data.data);
-			return Promise.resolve();
+			// return Promise.resolve();
 		})
 		.catch((errors) => {
 			console.log("There was and error" + errors);
@@ -45,4 +45,19 @@ export const getPurchaseData = ({ commit }) => {
 		.catch((errors) => {
 			console.log("There was and error" + errors);
 		});
+};
+
+// get Total Purchase
+export const getTotalPurchase = ({ commit }, total) => {
+	commit("TOTAL_PURCHASE", total);
+};
+
+// get Vat amount
+export const getVatCharge = ({ commit }, total) => {
+	commit("VAT_CHARGE", total);
+};
+
+// get transfer Cost
+export const getTransferCost = ({ commit }, total) => {
+	commit("TRANSFER_COST", total);
 };

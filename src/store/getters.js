@@ -14,14 +14,17 @@ export const getPurchase = (state) => {
 	return state.purchaseData;
 };
 
-/**Calculations */
+// get the totalCost
+export const getTotalPurchase = (state) => {
+	return state.totalPurchase;
+};
 
-export const purchaseDuty = (state) => {
-	// console.log(state.purchaseData.vat_amount);
+// get the vat charge
+export const getVatCharge = (state) => {
+	return state.vatChange;
+};
 
-	// const =((A6-1250000)*0,06)+10500
-	// return (
-	// 	parseFloat((1370000 - 1250000) * state.purchaseData.vat_amount) + 10500
-	// );
-	return state.purchaseData.length;
+// get the transferDuty
+export const getTransferDuty = (state) => {
+	return state.transferDuty;
 };
