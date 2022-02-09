@@ -21,7 +21,7 @@ export const getTotalPurchase = (state) => {
 
 // get the vat charge
 export const getVatCharge = (state) => {
-	return state.vatChange;
+	return state.vatCharge;
 };
 
 // get the transferDuty

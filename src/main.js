@@ -15,6 +15,7 @@ Vue.filter("moneyCurrency", function (value) {
 	const formatter = new Intl.NumberFormat("en", {
 		style: "currency",
 		currency: "ZAR",
+		currencyDisplay: "narrowSymbol",
 	});
 	return formatter.format(value);
 });

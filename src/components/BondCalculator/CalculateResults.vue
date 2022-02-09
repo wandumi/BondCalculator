@@ -33,15 +33,24 @@
 			<div class="mb-5">
 				<div class="flex justify-between">
 					<h3 class="font-bold">Total transfer costs</h3>
-					<p>{{ this.getTotalPurchase ? this.getTotalPurchase : "R 0.00" }}</p>
+					<p class="font-bold" v-if="this.getTotalPurchase">
+						{{ this.getTotalPurchase | moneyCurrency }}
+					</p>
+					<p class="font-bold" v-else>R 0.00</p>
 				</div>
 				<div class="flex justify-between">
 					<h3>Transfer duty</h3>
-					<p>{{ this.getTransferDuty ? this.getTransferDuty : "R 0.00" }}</p>
+					<p v-if="this.getTransferDuty">
+						{{ this.getTransferDuty | moneyCurrency }}
+					</p>
+					<p v-else>R 0.00</p>
 				</div>
 				<div class="flex justify-between">
 					<h3>Vat Amount</h3>
-					<p>{{ this.getVatCharge ? this.getVatCharge : "R 0.00" }}</p>
+					<p v-if="this.getVatCharge">
+						{{ this.getVatCharge | moneyCurrency }}
+					</p>
+					<p v-else>R 0.00</p>
 				</div>
 			</div>
 			<!-- end -->

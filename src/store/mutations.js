@@ -16,17 +16,18 @@ export const setPurchaseData = (state, purchase) => {
 };
 
 /**Set the Purchase */
-// set the Total purchase
-export const TOTAL_PURCHASE = (state, total) => {
-	state.totalPurchase = total;
+
+//Total for the transfer Cost
+export const TOTAL_TRANSFER_COST = (state, totalCost) => {
+	state.totalPurchase = totalCost;
 };
 
-// set the Vat Charge
-export const VAT_CHARGE = (state, total) => {
-	state.vatCharge = total;
+// transfer duty
+export const TRANSFER_DUTY = (state, transferDuty) => {
+	state.transferDuty = transferDuty;
 };
 
-// set the transferDuty
-export const TRANSFER_COST = (state, total) => {
-	state.transferDuty = total;
+// total vat purchase
+export const VAT_CHARGE = (state, vatCharge) => {
+	state.vatCharge = vatCharge;
 };

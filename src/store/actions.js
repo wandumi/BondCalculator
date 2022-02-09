@@ -49,7 +49,7 @@ export const getPurchaseData = ({ commit }) => {
 
 // get Total Purchase
 export const getTotalPurchase = ({ commit }, total) => {
-	commit("TOTAL_PURCHASE", total);
+	commit("TOTAL_TRANSFER_COST", total);
 };
 
 // get Vat amount
@@ -58,6 +58,6 @@ export const getVatCharge = ({ commit }, total) => {
 };
 
 // get transfer Cost
-export const getTransferCost = ({ commit }, total) => {
-	commit("TRANSFER_COST", total);
+export const getTransferDuty = ({ commit }, total) => {
+	commit("TRANSFER_DUTY", total);
 };

@@ -3,13 +3,17 @@
 		<div>
 			<form @submit.prevent="onSubmit">
 				<div class="grid grid-cols-1 gap-4">
+					<!-- Purchase Price -->
 					<label class="block">
 						<span class="text-gray-700">Purchase price</span>
 						<input
 							type="text"
 							class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
 							placeholder="R"
+							v-model.number="bondForm.purchase_price"
 							v-model.trim="$v.bondForm.purchase_price.$model"
+							@blur="$v.bondForm.purchase_price.$touch()"
+							:class="{ error: $v.bondForm.purchase_price.$error }"
 						/>
 						<div v-if="$v.bondForm.purchase_price.$error">
 							<p
@@ -87,13 +91,13 @@
 					</label>
 				</div>
 			</form>
-			<div class="mt-5">
+			<!-- <div class="mt-5">
 				<div>Transfer: {{ transferDuty | moneyCurrency }}</div>
 				<div>Total Vat: {{ totalVatPurchase | moneyCurrency }}</div>
 				<div>Transfer Cost: {{ totalTransferCost | moneyCurrency }}</div>
-				<div>Method: {{ transferCost() }}</div>
+
 				<div>{{ this.getBonds }}</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -109,10 +113,6 @@
 			this.getDefaultData();
 			this.getBondData();
 			this.getPurchaseData();
-		},
-
-		created() {
-			// this.$store.dispatch("getTransferCost", this.totalPurchase);
 		},
 
 		data() {
@@ -135,54 +135,9 @@
 
 			onSubmit() {
 				console.log("Button respond");
-				console.log("method", this.transferCost());
-				this.transferCost();
-			},
-
-			transferCost() {
-				// values
-				let tarrif_fee;
-				let search_fee;
-				let post_petties;
-				let korbitec_gen_fee;
-				let rate_application;
-				let deeds_office;
-
-				// default values
-				for (let i = 0; i < this.getDefaults.length; i++) {
-					const element = this.getDefaults[i];
-
-					tarrif_fee = element.tarrif_fee;
-					search_fee = element.search_fee;
-					post_petties = element.post_petties;
-					deeds_office = element.deeds_office;
-				}
-
-				// purchase values
-				for (let i = 0; i < this.getPurchase.length; i++) {
-					const element = this.getPurchase[i];
-
-					korbitec_gen_fee = element.korbitec_gen_fee;
-					rate_application = element.rate_applications;
-				}
-
-				let flottarrif = parseFloat(tarrif_fee);
-				let flotsearch = parseFloat(search_fee);
-				let flotkorbitec = parseFloat(korbitec_gen_fee);
-				let flotpost = parseFloat(post_petties);
-				let flotrate = parseFloat(rate_application);
-				let flotdeeds = parseFloat(deeds_office);
-
-				const total =
-					flottarrif +
-					flotsearch +
-					flotkorbitec +
-					flotpost +
-					flotrate +
-					flotdeeds;
-
-				return (this.totalPurchase =
-					this.totalVatPurchase + this.transferDuty + total);
+				this.$store.dispatch("getTotalPurchase", this.totalTransferCost);
+				this.$store.dispatch("getVatCharge", this.totalVatPurchase);
+				this.$store.dispatch("getTransferDuty", this.transferDuty);
 			},
 		},
 		computed: {
@@ -192,20 +147,19 @@
 				getPurchase: "getPurchase",
 			}),
 
+			/**Transfer Cost */
 			transferDuty() {
 				let vat;
 
-				for (let i = 0; i < this.getPurchase.length; i++) {
-					const element = this.getPurchase[i];
+				for (let i = 0; i < this.getDefaults.length; i++) {
+					const element = this.getDefaults[i];
 					vat = element.vat_amount;
 				}
 
-				// console.log("vat amount ", vat);
 				// const =((A6-1250000)*0,06)+10500
-				const transferDuty =
-					parseFloat((this.bondForm.purchase_price - 1250000) * vat) + 10500;
-
-				return transferDuty;
+				return (
+					parseFloat((this.bondForm.purchase_price - 1250000) * vat) + 10500
+				);
 			},
 
 			totalVatPurchase() {
@@ -219,10 +173,16 @@
 				// default values
 				for (let i = 0; i < this.getDefaults.length; i++) {
 					const element = this.getDefaults[i];
-					vat = element.vat_amount;
+					// vat = element.vat_amount;
 					tarrif_fee = element.tarrif_fee;
 					search_fee = element.search_fee;
 					post_petties = element.post_petties;
+				}
+
+				// get the vat from the purchase
+				for (let i = 0; i < this.getPurchase.length; i++) {
+					const element = this.getPurchase[i];
+					vat = element.vat_amount;
 				}
 
 				let flotTarrif = parseFloat(tarrif_fee);
@@ -232,7 +192,6 @@
 
 				const totalCost = flotTarrif + flotsearch + flotkorbitec + flotpost;
 
-				// return totalCost;
 				return parseFloat((totalCost * vat) / 100);
 			},
 
@@ -280,6 +239,8 @@
 
 				return this.totalVatPurchase + this.transferDuty + total;
 			},
+
+			/**Bond Calculator */
 		},
 		// Form Validation Rules
 		validations: {

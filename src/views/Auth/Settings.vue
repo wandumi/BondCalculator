@@ -4,6 +4,7 @@
 			<bond-settings />
 			<purchase-settings />
 			<default-settings />
+			<transfer-duty />
 		</div>
 	</div>
 </template>
@@ -12,6 +13,7 @@
 	import BondSettings from "../../components/Settings/BondSettings.vue";
 	import PurchaseSettings from "../../components/Settings/Purchaseprice.vue";
 	import DefaultSettings from "../../components/Settings/DefaultSettings.vue";
+	import TransferDuty from "../../components/Settings/TransferDuty.vue";
 
 	export default {
 		name: "Settings",
@@ -19,6 +21,7 @@
 			BondSettings,
 			PurchaseSettings,
 			DefaultSettings,
+			TransferDuty,
 		},
 	};
 </script>
