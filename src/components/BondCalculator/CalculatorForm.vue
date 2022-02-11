@@ -97,6 +97,10 @@
 				<div>Transfer Cost: {{ totalTransferCost | moneyCurrency }}</div>
 
 				<div>{{ this.getBonds }}</div>
+			</div>
+			<div>
+				<h2>Vat Calculator Function</h2>
+				<div></div>
 			</div> -->
 		</div>
 	</div>
@@ -138,6 +142,78 @@
 				this.$store.dispatch("getTotalPurchase", this.totalTransferCost);
 				this.$store.dispatch("getVatCharge", this.totalVatPurchase);
 				this.$store.dispatch("getTransferDuty", this.transferDuty);
+				this.$store.dispatch("getVatBond", this.totalVatBond);
+				this.$store.dispatch("getBondTotal", this.totalBondCost);
+			},
+
+			vatCalculations(defaultValues = [], purchase = [], bond = []) {
+				// set the values
+				let vat;
+				let tarrif_fee;
+				let search_fee;
+				let post_petties;
+				let purchasekorbitec_gen_fee;
+				let bondkorbitec_gen_fee;
+				let electronic_ins_fee;
+
+				// change the numbers to whole number for precise calculations
+				let flotvat = parseFloat(vat);
+				let flotTarrif = parseFloat(tarrif_fee);
+				let flotsearch = parseFloat(search_fee);
+				let flotpost = parseFloat(post_petties);
+				let flotpurchasekorbitec = parseFloat(purchasekorbitec_gen_fee);
+				let flotbondkorbitec = parseFloat(bondkorbitec_gen_fee);
+				let flotelectronic = parseFloat(electronic_ins_fee);
+
+				// default values
+				if (defaultValues != 0) {
+					for (let i = 0; i < defaultValues.length; i++) {
+						const element = defaultValues[i];
+						vat = element.vat_amount;
+						tarrif_fee = element.tarrif_fee;
+						search_fee = element.search_fee;
+						post_petties = element.post_petties;
+					}
+				}
+
+				// get the vat from the purchase
+				if (purchase.length != 0) {
+					// get the purchase
+					for (let i = 0; i < this.getPurchase.length; i++) {
+						const element = this.getPurchase[i];
+						purchasekorbitec_gen_fee = element.korbitec_gen_fee;
+					}
+				}
+
+				if (!bond.length === 0) {
+					for (let i = 0; i < this.getBonds.length; i++) {
+						const element = this.getBonds[i];
+						electronic_ins_fee = element.electronic_ins_fee;
+						bondkorbitec_gen_fee = element.korbitec_gen_fee;
+					}
+				}
+
+				console.log(electronic_ins_fee);
+				// not common varibles
+				if (electronic_ins_fee != 0) {
+					const totalCost = parseFloat(
+						flotTarrif +
+							flotsearch +
+							flotbondkorbitec +
+							flotpost +
+							flotelectronic
+					);
+
+					return (totalCost * flotvat) / 100;
+				}
+
+				if (purchasekorbitec_gen_fee != 0) {
+					const totalCost = parseFloat(
+						flotTarrif + flotsearch + flotpurchasekorbitec + flotpost
+					);
+
+					return (totalCost * vat) / 100;
+				}
 			},
 		},
 		computed: {
@@ -151,8 +227,8 @@
 			transferDuty() {
 				let vat;
 
-				for (let i = 0; i < this.getDefaults.length; i++) {
-					const element = this.getDefaults[i];
+				for (let i = 0; i < this.getPurchase.length; i++) {
+					const element = this.getPurchase[i];
 					vat = element.vat_amount;
 				}
 
@@ -162,39 +238,7 @@
 				);
 			},
 
-			totalVatPurchase() {
-				// values
-				let vat;
-				let tarrif_fee;
-				let search_fee;
-				let korbitec_gen_fee = 400;
-				let post_petties;
-
-				// default values
-				for (let i = 0; i < this.getDefaults.length; i++) {
-					const element = this.getDefaults[i];
-					// vat = element.vat_amount;
-					tarrif_fee = element.tarrif_fee;
-					search_fee = element.search_fee;
-					post_petties = element.post_petties;
-				}
-
-				// get the vat from the purchase
-				for (let i = 0; i < this.getPurchase.length; i++) {
-					const element = this.getPurchase[i];
-					vat = element.vat_amount;
-				}
-
-				let flotTarrif = parseFloat(tarrif_fee);
-				let flotsearch = parseFloat(search_fee);
-				let flotkorbitec = parseFloat(korbitec_gen_fee);
-				let flotpost = parseFloat(post_petties);
-
-				const totalCost = flotTarrif + flotsearch + flotkorbitec + flotpost;
-
-				return parseFloat((totalCost * vat) / 100);
-			},
-
+			// total bond
 			totalTransferCost() {
 				// values
 				let tarrif_fee;
@@ -241,6 +285,126 @@
 			},
 
 			/**Bond Calculator */
+			totalVatBond() {
+				// values
+				let vat;
+				let tarrif_fee;
+				let search_fee;
+				let post_petties;
+				let korbitec_gen_fee;
+				let electronic_ins_fee;
+
+				// default values
+				for (let i = 0; i < this.getDefaults.length; i++) {
+					const element = this.getDefaults[i];
+					vat = element.vat_amount;
+					tarrif_fee = element.tarrif_fee;
+					search_fee = element.search_fee;
+					post_petties = element.post_petties;
+				}
+
+				// get the vat from the purchase
+				for (let i = 0; i < this.getBonds.length; i++) {
+					const element = this.getBonds[i];
+					electronic_ins_fee = element.electronic_ins_fee;
+					korbitec_gen_fee = element.korbitec_gen_fee;
+				}
+
+				let flotvat = parseFloat(vat);
+				let flotTarrif = parseFloat(tarrif_fee);
+				let flotsearch = parseFloat(search_fee);
+				let flotpost = parseFloat(post_petties);
+				let flotkorbitec = parseFloat(korbitec_gen_fee);
+				let flotelectronic = parseFloat(electronic_ins_fee);
+
+				const totalCost = parseFloat(
+					flotTarrif + flotsearch + flotkorbitec + flotpost + flotelectronic
+				);
+
+				return (totalCost * flotvat) / 100;
+			},
+
+			// totalvatpurchase
+			totalVatPurchase() {
+				// values
+
+				let vat;
+				let tarrif_fee;
+				let search_fee;
+				let korbitec_gen_fee;
+				let post_petties;
+
+				// default values
+				for (let i = 0; i < this.getDefaults.length; i++) {
+					const element = this.getDefaults[i];
+					vat = element.vat_amount;
+					tarrif_fee = element.tarrif_fee;
+					search_fee = element.search_fee;
+					post_petties = element.post_petties;
+				}
+
+				// get the purchase
+				for (let i = 0; i < this.getPurchase.length; i++) {
+					const element = this.getPurchase[i];
+
+					korbitec_gen_fee = element.korbitec_gen_fee;
+				}
+
+				let flotTarrif = parseFloat(tarrif_fee);
+				let flotsearch = parseFloat(search_fee);
+				let flotkorbitec = parseFloat(korbitec_gen_fee);
+				let flotpost = parseFloat(post_petties);
+
+				const totalCost = parseFloat(
+					flotTarrif + flotsearch + flotkorbitec + flotpost
+				);
+
+				return (totalCost * vat) / 100;
+			},
+			// get the bond total
+			totalBondCost() {
+				// values
+				let tarrif_fee;
+				let search_fee;
+				let post_petties;
+				let korbitec_gen_fee;
+				let electronic_ins_fee;
+				let deeds_office;
+
+				// default values
+				for (let i = 0; i < this.getDefaults.length; i++) {
+					const element = this.getDefaults[i];
+
+					tarrif_fee = element.tarrif_fee;
+					search_fee = element.search_fee;
+					post_petties = element.post_petties;
+					deeds_office = element.deeds_office;
+				}
+
+				// get the vat from the purchase
+				for (let i = 0; i < this.getBonds.length; i++) {
+					const element = this.getBonds[i];
+					electronic_ins_fee = element.electronic_ins_fee;
+					korbitec_gen_fee = element.korbitec_gen_fee;
+				}
+
+				let flottarrif = parseFloat(tarrif_fee);
+				let flotsearch = parseFloat(search_fee);
+				let flotkorbitec = parseFloat(korbitec_gen_fee);
+				let flotpost = parseFloat(post_petties);
+				let flotelectronic = parseFloat(electronic_ins_fee);
+				let flotdeeds = parseFloat(deeds_office);
+
+				const total =
+					flottarrif +
+					flotsearch +
+					flotkorbitec +
+					flotpost +
+					flotelectronic +
+					flotdeeds;
+
+				return this.totalVatBond + total;
+			},
 		},
 		// Form Validation Rules
 		validations: {

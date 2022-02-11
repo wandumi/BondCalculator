@@ -31,3 +31,13 @@ export const TRANSFER_DUTY = (state, transferDuty) => {
 export const VAT_CHARGE = (state, vatCharge) => {
 	state.vatCharge = vatCharge;
 };
+
+// get the tatal bond Cost
+export const TOTAL_BOND_COST = (state, totalBond) => {
+	state.totalBond = totalBond;
+};
+
+// get the vat on bond
+export const VAT_BOND = (state, vatBond) => {
+	state.vatBond = vatBond;
+};

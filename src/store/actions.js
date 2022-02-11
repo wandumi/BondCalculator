@@ -61,3 +61,20 @@ export const getVatCharge = ({ commit }, total) => {
 export const getTransferDuty = ({ commit }, total) => {
 	commit("TRANSFER_DUTY", total);
 };
+
+// get bond vat
+export const getBondTotal = ({ commit }, total) => {
+	commit("TOTAL_BOND_COST", total);
+};
+
+// get bond vat
+export const getVatBond = ({ commit }, total) => {
+	commit("VAT_BOND", total);
+};
+
+// export const totalVat = ({commit}, payload) => {
+
+// 	const totalCost = flotTarrif + flotsearch + flotkorbitec + flotpost;
+
+// 	return parseFloat((totalCost * vat) / 100);
+// },

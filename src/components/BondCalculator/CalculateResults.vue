@@ -6,30 +6,8 @@
 				<h3 class="font-bold">Total cost</h3>
 				<p>R 0.00</p>
 			</div>
-			<!-- Second Row -->
-			<div class="mb-5">
-				<div class="flex justify-between">
-					<h3 class="font-bold">Total bond costs</h3>
-					<p>R 0.00</p>
-				</div>
-				<div class="flex justify-between">
-					<h3>Bond registration cost</h3>
-					<p>R 0.00</p>
-				</div>
-				<div class="flex justify-between">
-					<h3>Bond deeds office fees</h3>
-					<p>R 0.00</p>
-				</div>
-				<div class="flex justify-between">
-					<h3>Post, petties FICA, other fees</h3>
-					<p>R 0.00</p>
-				</div>
-				<div class="flex justify-between">
-					<h3>Bank initiation fee</h3>
-					<p>R 0.00</p>
-				</div>
-			</div>
-			<!-- Third Row -->
+
+			<!-- first Row -->
 			<div class="mb-5">
 				<div class="flex justify-between">
 					<h3 class="font-bold">Total transfer costs</h3>
@@ -53,6 +31,24 @@
 					<p v-else>R 0.00</p>
 				</div>
 			</div>
+			<!-- Second Row -->
+			<div class="mb-5">
+				<div class="flex justify-between">
+					<h3 class="font-bold">Total bond costs</h3>
+					<p class="font-bold" v-if="this.getBondTotal">
+						{{ this.getBondTotal | moneyCurrency }}
+					</p>
+					<p v-else>R 0.00</p>
+				</div>
+				<div class="flex justify-between">
+					<h3>Vat Amount</h3>
+					<p v-if="this.getVatBond">
+						{{ this.getVatBond | moneyCurrency }}
+					</p>
+					<p v-else>R 0.00</p>
+				</div>
+			</div>
+
 			<!-- end -->
 		</div>
 	</div>
@@ -68,6 +64,8 @@
 				getTotalPurchase: "getTotalPurchase",
 				getVatCharge: "getVatCharge",
 				getTransferDuty: "getTransferDuty",
+				getVatBond: "getVatBond",
+				getBondTotal: "getBondTotal",
 			}),
 		},
 	};

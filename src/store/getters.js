@@ -28,3 +28,13 @@ export const getVatCharge = (state) => {
 export const getTransferDuty = (state) => {
 	return state.transferDuty;
 };
+
+// get the bond total
+export const getBondTotal = (state) => {
+	return state.totalBond;
+};
+
+// get the vat bond
+export const getVatBond = (state) => {
+	return state.vatBond;
+};

@@ -12,4 +12,6 @@ export default {
 	totalPurchase: "",
 
 	/**Bond Cost */
+	totalBond: "",
+	vatBond: "",
 };
