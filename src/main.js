@@ -5,6 +5,10 @@ import store from "./store";
 import "./index.css";
 import Vuelidate from "vuelidate";
 import "nprogress/nprogress";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 Vue.config.productionTip = false;
 

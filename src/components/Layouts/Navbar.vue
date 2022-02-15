@@ -8,7 +8,8 @@
 				<div class="text-white flex">
 					<router-link class="pr-2" to="/">Home</router-link>
 					<router-link class="pr-2" to="/about">About</router-link>
-					<router-link class="pr-2" to="/login">Login</router-link>
+					<router-link class="pr-2" to="/auth/login">Login</router-link>
+					<router-link class="pr-2" to="/auth/register">Register</router-link>
 					<base-dropdown class="ml-2" />
 				</div>
 			</div>
