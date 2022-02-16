@@ -1,26 +1,76 @@
 <template>
-	<div>
-		<div class="py-10 lg:mx-20">
-			<p class="mb-5">Login Page</p>
-			<a href="" class="bg-gray-600 p-3 mt-3 text-white" @click.prevent="login"
-				>Login</a
-			>
+	<div class="flex items-center justify-center h-screen">
+		<div class="px-8 py-6 text-left bg-white shadow-lg">
+			<h3 class="text-2xl font-bold text-center">Login to your account</h3>
+			<form @submit.prevent="login">
+				<div class="mt-4">
+					<div>
+						<label class="block" for="email">Email</label>
+						<input
+							type="text"
+							placeholder="Email"
+							class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+							v-model="form.email"
+						/>
+						<span class="w-full text-red-600" v-if="errors.email">
+							{{ errors.email[0] }}
+						</span>
+					</div>
+					<div class="mt-4">
+						<label class="block">Password</label>
+						<input
+							type="password"
+							placeholder="Password"
+							class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+							v-model="form.password"
+						/>
+						<span class="text-red-600" v-if="errors.password">
+							{{ errors.password[0] }}
+						</span>
+					</div>
+					<div class="flex items-baseline justify-between">
+						<button
+							class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900"
+						>
+							Login
+						</button>
+						<a href="#" class="text-sm text-blue-600 hover:underline"
+							>Forgot password?</a
+						>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </template>
 
 <script>
-	import axios from "axios";
+	import User from "../../apis/User";
 	export default {
 		name: "Login",
+		data() {
+			return {
+				form: {
+					email: "",
+					password: "",
+				},
+				errors: [],
+			};
+		},
 		methods: {
-			async login() {
-				await axios.get("http://127.0.0.1:8000/sanctum/crsf-cookie");
-				await axios.post("http://127.0.0.1:8000/api/login", {
-					email: "trace.graham@example.org",
-					password: "password",
-				});
-				await axios.get("/user");
+			login() {
+				User.login(this.form)
+					.then((response) => {
+						console.log(response);
+						this.$router.push({ name: "Register" });
+					})
+					.catch((error) => {
+						if (error.response.status === 422) {
+							this.errors = error.response.data.errors;
+						}
+						console.log(error.response.data.errors);
+						console.log(error.response.status);
+					});
 			},
 		},
 	};

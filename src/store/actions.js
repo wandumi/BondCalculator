@@ -11,7 +11,7 @@ import axios from "axios";
 // get the default settings
 export const getDefaultData = ({ commit }) => {
 	return axios
-		.get("http://127.0.0.1:8000/api/default_settings")
+		.get("/api/default_settings")
 		.then((response) => {
 			commit("setDefaultData", response.data.data);
 			// return Promise.resolve();
@@ -24,7 +24,7 @@ export const getDefaultData = ({ commit }) => {
 // bondSettings
 export const getBondData = ({ commit }) => {
 	return axios
-		.get("http://127.0.0.1:8000/api/bond_settings")
+		.get("/api/bond_settings")
 		.then((response) => {
 			commit("setBondData", response.data.data);
 			return Promise.resolve();
@@ -37,7 +37,7 @@ export const getBondData = ({ commit }) => {
 // get the transaciton settings
 export const getPurchaseData = ({ commit }) => {
 	return axios
-		.get("http://127.0.0.1:8000/api/purchase_settings")
+		.get("/api/purchase_settings")
 		.then((response) => {
 			commit("setPurchaseData", response.data.data);
 			return Promise.resolve();
