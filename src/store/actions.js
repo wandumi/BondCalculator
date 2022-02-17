@@ -1,14 +1,52 @@
 import axios from "axios";
-// Super administrators duties
-// able to see all users and CRUD
+import User from "../apis/User";
+import { setHttpToken } from "../helpers";
+/**login the user */
+export const loginUser = ({ commit, dispatch }, { payload, context }) => {
+	return User.login(payload)
+		.then((response) => {
+			console.log("submitting");
+		})
+		.catch((error) => {
+			context.errors = error.response.data.errors;
+			console.log("actions working");
+		});
+};
 
-// Get the token from the database
-// store it in the localStorage
+/** get the register user in the system */
+export const registerUser = ({ commit }, { payload, context }) => {
+	return User.register(payload)
+		.then((response) => {
+			console.log("Submitted", response.data);
+		})
+		.catch((error) => {
+			context.errors = error.response.data.errors;
+			console.log("actions working");
+		});
+};
 
-// get the logged in user in the system
-// set the values
+/** set token to the state */
+export const setToken = ({ commit }, token) => {
+	commit("setToken", token);
+	setHttpToken(token);
+};
 
-// get the default settings
+// get the user
+export const getUser = ({ commit, dispatch }) => {
+	return axios
+		.get("/api/user")
+		.then((response) => {
+			commit("setUser", response.data.data);
+			commit("isLoggedIn", true);
+			// return Promise.resolve();
+		})
+		.catch((errors) => {
+			dispatch("getLogout");
+			console.log("There was and error" + errors);
+		});
+};
+
+/** get the default settings */
 export const getDefaultData = ({ commit }) => {
 	return axios
 		.get("/api/default_settings")
@@ -71,10 +109,3 @@ export const getBondTotal = ({ commit }, total) => {
 export const getVatBond = ({ commit }, total) => {
 	commit("VAT_BOND", total);
 };
-
-// export const totalVat = ({commit}, payload) => {
-
-// 	const totalCost = flotTarrif + flotsearch + flotkorbitec + flotpost;
-
-// 	return parseFloat((totalCost * vat) / 100);
-// },

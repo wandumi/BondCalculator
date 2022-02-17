@@ -1,4 +1,8 @@
-/**Set the values to Arrays */
+/**get the user */
+export const getUser = (state) => {
+	return state.user;
+};
+
 // get the defaults data
 export const getDefaults = (state) => {
 	return state.defaultData;

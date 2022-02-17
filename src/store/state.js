@@ -1,4 +1,10 @@
 export default {
+	// authentication
+	user: {
+		authenticated: false,
+		data: null,
+	},
+
 	// Bond State
 	bondData: [],
 	// Transfer State

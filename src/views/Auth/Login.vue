@@ -1,50 +1,68 @@
 <template>
-	<div class="flex items-center justify-center h-screen">
-		<div class="px-8 py-6 text-left bg-white shadow-lg">
-			<h3 class="text-2xl font-bold text-center">Login to your account</h3>
-			<form @submit.prevent="login">
-				<div class="mt-4">
-					<div>
-						<label class="block" for="email">Email</label>
-						<input
-							type="text"
-							placeholder="Email"
-							class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-							v-model="form.email"
-						/>
-						<span class="w-full text-red-600" v-if="errors.email">
-							{{ errors.email[0] }}
-						</span>
-					</div>
+	<div class="mt-40 h-screen">
+		<div class="max-w-lg mx-auto">
+			<div class="p-10 m-10 text-left bg-white shadow-xl">
+				<!-- <div class="bg-red-600" v-if="errors.root">
+					<p class="text-white p-3 mb-2">{{ errors.root }}</p>
+				</div> -->
+				<h3 class="text-2xl text-center">Login to your account</h3>
+				<form @submit.prevent="Submit">
 					<div class="mt-4">
-						<label class="block">Password</label>
-						<input
-							type="password"
-							placeholder="Password"
-							class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-							v-model="form.password"
-						/>
-						<span class="text-red-600" v-if="errors.password">
-							{{ errors.password[0] }}
-						</span>
-					</div>
-					<div class="flex items-baseline justify-between">
+						<div>
+							<label class="block" for="email">Email</label>
+							<input
+								type="text"
+								placeholder="Email"
+								class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+								v-model="form.email"
+							/>
+							<span class="w-full text-red-600" v-if="errors.email">
+								{{ errors.email[0] }}
+							</span>
+						</div>
+						<div class="mt-4">
+							<label class="block">Password</label>
+							<input
+								type="password"
+								placeholder="Password"
+								class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+								v-model="form.password"
+							/>
+							<span class="text-red-600" v-if="errors.password">
+								{{ errors.password[0] }}
+							</span>
+						</div>
+
 						<button
-							class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900"
+							class="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900"
 						>
 							Login
 						</button>
-						<a href="#" class="text-sm text-blue-600 hover:underline"
-							>Forgot password?</a
-						>
+
+						<div class="mt-3">
+							<div>
+								<span>No account yet? </span>
+								<router-link
+									:to="{ name: 'Register' }"
+									class="text-blue-600 hover:underline"
+									>Register</router-link
+								>
+							</div>
+							<div>
+								<a href="#" class="text-sm text-blue-600 hover:underline"
+									>Forgot password?</a
+								>
+							</div>
+						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+	import { mapActions } from "vuex";
 	import User from "../../apis/User";
 	export default {
 		name: "Login",
@@ -58,19 +76,32 @@
 			};
 		},
 		methods: {
-			login() {
-				User.login(this.form)
-					.then((response) => {
-						console.log(response);
-						this.$router.push({ name: "Register" });
-					})
-					.catch((error) => {
-						if (error.response.status === 422) {
-							this.errors = error.response.data.errors;
-						}
-						console.log(error.response.data.errors);
-						console.log(error.response.status);
-					});
+			...mapActions({
+				login: "loginUser",
+			}),
+			// login() {
+			// 	User.login(this.form)
+			// 		.then((response) => {
+			// 			console.log(response);
+			// 			User.user().then((response) => {
+			// 				console.log(response.data);
+			// 			});
+			// 			this.$router.push({ name: "Register" });
+			// 		})
+			// 		.catch((error) => {
+			// 			if (error.response.status === 422) {
+			// 				this.errors = error.response.data.errors;
+			// 			}
+			// 			// console.log(error.response.data.errors);
+			// 			// console.log(error.response.status);
+			// 		});
+			// },
+
+			Submit() {
+				this.login({
+					payload: this.form,
+					context: this,
+				});
 			},
 		},
 	};

@@ -1,4 +1,24 @@
+import localforage from "localforage";
+import { isEmpty } from "lodash";
+
 // get a token for the logged in user from the storage
+export const setUser = (state, payload) => {
+	state.user = payload;
+};
+
+export const setLoggedIn = (state, payload) => {
+	state.isLoggedIn = payload;
+};
+
+// set the token
+export const setToken = (state, token) => {
+	// check empty and remove it
+	if (isEmpty(token)) {
+		localforage.removeItem("authtoken", token);
+		return;
+	}
+	localforage.setItem("authtoken", token);
+};
 
 // set the default settings
 export const setDefaultData = (state, products) => {

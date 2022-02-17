@@ -6,11 +6,22 @@
 					<img src="#" alt="User Logo" />
 				</div>
 				<div class="text-white flex">
-					<router-link class="pr-2" to="/">Home</router-link>
-					<router-link class="pr-2" to="/about">About</router-link>
-					<router-link class="pr-2" to="/auth/login">Login</router-link>
-					<router-link class="pr-2" to="/auth/register">Register</router-link>
-					<base-dropdown class="ml-2" />
+					<span class="flex" v-if="!user.authenticated">
+						<router-link class="pr-2" :to="{ name: 'Home' }">Home</router-link>
+						<router-link class="pr-2" :to="{ name: 'About' }"
+							>About</router-link
+						>
+						<router-link class="pr-2" :to="{ name: 'Login' }"
+							>Login</router-link
+						>
+						<router-link class="pr-2" :to="{ name: 'Register' }"
+							>Register</router-link
+						>
+					</span>
+					<!-- Login in users -->
+					<span class="flex" v-if="user.authenticated">
+						<base-dropdown class="ml-2" />
+					</span>
 				</div>
 			</div>
 		</div>
@@ -20,11 +31,18 @@
 <script>
 	// @ is an alias to /src
 	import BaseDropdown from "../Base/BaseDropdown.vue";
+	import { mapGetters } from "vuex";
 
 	export default {
 		name: "Navbar",
+
 		components: {
 			BaseDropdown,
+		},
+		computed: {
+			...mapGetters({
+				user: "getUser",
+			}),
 		},
 	};
 </script>

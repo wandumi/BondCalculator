@@ -27,7 +27,7 @@
 			>
 			<router-link
 				class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-				to="/Settings"
+				:to="{ name: 'Settings' }"
 				>Account Settings</router-link
 			>
 			<a
@@ -40,6 +40,7 @@
 	</div>
 </template>
 <script>
+	import { mapGetters } from "vuex";
 	export default {
 		name: "dropdown",
 		data() {
@@ -61,5 +62,10 @@
 			});
 		},
 		methods: {},
+		computed: {
+			...mapGetters({
+				user: "getUser",
+			}),
+		},
 	};
 </script>

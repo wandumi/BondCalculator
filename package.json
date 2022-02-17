@@ -12,6 +12,8 @@
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
     "express": "^4.17.2",
+    "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "sqlite3": "^5.0.2",
     "v-mask": "^2.3.0",

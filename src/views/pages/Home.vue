@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<div class="py-10 lg:mx-20">
+	<div class="h-screen">
+		<div class="py-20 lg:mx-20">
 			<div class="grid place-content-center pb-10">
 				<h2 class="text-3xl text-center font-bold pb-5">
 					Bond and transfer cost calculator

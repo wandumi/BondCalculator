@@ -9,6 +9,7 @@ import * as actions from "./actions";
 import * as mutations from "./mutations";
 
 export default new Vuex.Store({
+	// namespace: true,
 	state,
 	mutations,
 	actions,
