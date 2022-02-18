@@ -1,15 +1,22 @@
 import axios from "axios";
 import User from "../apis/User";
-import { setHttpToken } from "../helpers";
-/**login the user */
+
+import router from "../router";
+
+/** login the user */
 export const loginUser = ({ commit, dispatch }, { payload, context }) => {
 	return User.login(payload)
 		.then((response) => {
-			console.log("submitting");
+			commit("setUserToken", response.data.jwt);
+			commit("setLoggedIn", true);
+			localStorage.setItem("isLoggedIn", true);
+
+			dispatch("getUser");
+
+			router.replace("/auth/dashboard");
 		})
 		.catch((error) => {
 			context.errors = error.response.data.errors;
-			console.log("actions working");
 		});
 };
 
@@ -21,29 +28,26 @@ export const registerUser = ({ commit }, { payload, context }) => {
 		})
 		.catch((error) => {
 			context.errors = error.response.data.errors;
-			console.log("actions working");
 		});
 };
 
-/** set token to the state */
-export const setToken = ({ commit }, token) => {
-	commit("setToken", token);
-	setHttpToken(token);
-};
-
-// get the user
+/** get the logged in user data */
 export const getUser = ({ commit, dispatch }) => {
 	return axios
 		.get("/api/user")
 		.then((response) => {
-			commit("setUser", response.data.data);
-			commit("isLoggedIn", true);
-			// return Promise.resolve();
+			commit("setUserData", response.data);
 		})
 		.catch((errors) => {
 			dispatch("getLogout");
 			console.log("There was and error" + errors);
 		});
+};
+
+export const getLogout = ({ commit }) => {
+	commit("setLogout", {});
+	localStorage.setItem("isLoggedIn", false);
+	router.replace("/");
 };
 
 /** get the default settings */
@@ -59,7 +63,7 @@ export const getDefaultData = ({ commit }) => {
 		});
 };
 
-// bondSettings
+/** get bond settings */
 export const getBondData = ({ commit }) => {
 	return axios
 		.get("/api/bond_settings")
@@ -72,7 +76,7 @@ export const getBondData = ({ commit }) => {
 		});
 };
 
-// get the transaciton settings
+/** get the transaciton settings */
 export const getPurchaseData = ({ commit }) => {
 	return axios
 		.get("/api/purchase_settings")
@@ -85,7 +89,7 @@ export const getPurchaseData = ({ commit }) => {
 		});
 };
 
-// get Total Purchase
+/** get Total Purchase */
 export const getTotalPurchase = ({ commit }, total) => {
 	commit("TOTAL_TRANSFER_COST", total);
 };
@@ -95,17 +99,17 @@ export const getVatCharge = ({ commit }, total) => {
 	commit("VAT_CHARGE", total);
 };
 
-// get transfer Cost
+/** get transfer Cost */
 export const getTransferDuty = ({ commit }, total) => {
 	commit("TRANSFER_DUTY", total);
 };
 
-// get bond vat
+/**  get bond vat */
 export const getBondTotal = ({ commit }, total) => {
 	commit("TOTAL_BOND_COST", total);
 };
 
-// get bond vat
+/** get bond vat */
 export const getVatBond = ({ commit }, total) => {
 	commit("VAT_BOND", total);
 };

@@ -20,19 +20,25 @@
 			v-if="isOpen"
 			class="absolute right-0 mt-2 w-48 bg-white rounded-lg py-2 shadow-xl"
 		>
+			<span
+				disabled
+				class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+				>Welcome {{ user.data.name }}</span
+			>
 			<a
 				href="#"
 				class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-				>Profile</a
+				>Your Profile</a
 			>
 			<router-link
 				class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
 				:to="{ name: 'Settings' }"
-				>Account Settings</router-link
+				>Settings</router-link
 			>
+			<hr />
 			<a
 				href="#"
-				@click.prevent="logout"
+				@click.prevent="logoutUser"
 				class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
 				>Sign Out</a
 			>
@@ -40,7 +46,7 @@
 	</div>
 </template>
 <script>
-	import { mapGetters } from "vuex";
+	import { mapGetters, mapActions } from "vuex";
 	export default {
 		name: "dropdown",
 		data() {
@@ -61,10 +67,18 @@
 				document.removeEventListener("keydown", handleEscape);
 			});
 		},
-		methods: {},
+		methods: {
+			logoutUser() {
+				this.logout;
+			},
+		},
 		computed: {
 			...mapGetters({
 				user: "getUser",
+			}),
+
+			...mapActions({
+				logout: "getLogout",
 			}),
 		},
 	};

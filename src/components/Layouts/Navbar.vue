@@ -3,7 +3,9 @@
 		<div class="container mx-auto">
 			<div class="lg:mx-20 flex justify-between items-center">
 				<div class="">
-					<img src="#" alt="User Logo" />
+					<router-link class="pr-2 flex align-center" to="/">
+						<img src="#" alt="User Logo" />
+					</router-link>
 				</div>
 				<div class="text-white flex">
 					<span class="flex" v-if="!user.authenticated">
@@ -12,14 +14,17 @@
 							>About</router-link
 						>
 						<router-link class="pr-2" :to="{ name: 'Login' }"
-							>Login</router-link
+							>Sign up</router-link
 						>
-						<router-link class="pr-2" :to="{ name: 'Register' }"
+						<!-- <router-link class="pr-2" :to="{ name: 'Register' }"
 							>Register</router-link
-						>
+						> -->
 					</span>
 					<!-- Login in users -->
-					<span class="flex" v-if="user.authenticated">
+					<span class="flex items-center" v-if="user.authenticated">
+						<router-link class="pr-2" :to="{ name: 'Dashboard' }"
+							>Dashboard</router-link
+						>
 						<base-dropdown class="ml-2" />
 					</span>
 				</div>

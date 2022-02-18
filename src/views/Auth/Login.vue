@@ -79,23 +79,6 @@
 			...mapActions({
 				login: "loginUser",
 			}),
-			// login() {
-			// 	User.login(this.form)
-			// 		.then((response) => {
-			// 			console.log(response);
-			// 			User.user().then((response) => {
-			// 				console.log(response.data);
-			// 			});
-			// 			this.$router.push({ name: "Register" });
-			// 		})
-			// 		.catch((error) => {
-			// 			if (error.response.status === 422) {
-			// 				this.errors = error.response.data.errors;
-			// 			}
-			// 			// console.log(error.response.data.errors);
-			// 			// console.log(error.response.status);
-			// 		});
-			// },
 
 			Submit() {
 				this.login({
