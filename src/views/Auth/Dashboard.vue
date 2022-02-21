@@ -3,11 +3,10 @@
 		<div class="py-20 lg:mx-20">
 			<div class="grid place-content-center pb-10">
 				<h2 class="text-3xl text-center font-bold pb-5">Welcome</h2>
-				<p class="text-md text-center font-normal" v-if="!user.authenticated">
-					{{ user.data.name }}
-				</p>
+				<p class="text-md text-center font-normal"></p>
+
 				<p class="text-md text-center font-normal" v-if="user.authenticated">
-					{{ user.data.name }} with true
+					{{ user.data.email }}
 				</p>
 			</div>
 		</div>
@@ -17,9 +16,11 @@
 	import { mapGetters } from "vuex";
 	export default {
 		name: "dashboard",
-		// mounted() {
-		// 	this.user;
-		// },
+		created() {
+			setInterval(() => {
+				this.user;
+			}, 5000);
+		},
 		computed: {
 			...mapGetters({
 				user: "getUser",

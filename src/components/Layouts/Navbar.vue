@@ -14,7 +14,7 @@
 							>About</router-link
 						>
 						<router-link class="pr-2" :to="{ name: 'Login' }"
-							>Sign up</router-link
+							>Sign in</router-link
 						>
 						<!-- <router-link class="pr-2" :to="{ name: 'Register' }"
 							>Register</router-link
@@ -27,6 +27,9 @@
 						>
 						<base-dropdown class="ml-2" />
 					</span>
+					<!-- <span class="bg-white text-black px-1">
+						{{ this.$store.state.user.user.authenticated }}
+					</span> -->
 				</div>
 			</div>
 		</div>
@@ -40,6 +43,9 @@
 
 	export default {
 		name: "Navbar",
+		mounted() {
+			this.user;
+		},
 
 		components: {
 			BaseDropdown,

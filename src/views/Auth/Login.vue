@@ -2,9 +2,9 @@
 	<div class="mt-40 h-screen">
 		<div class="max-w-lg mx-auto">
 			<div class="p-10 m-10 text-left bg-white shadow-xl">
-				<!-- <div class="bg-red-600" v-if="errors.root">
+				<div class="bg-red-600 text-white" v-if="errors.message">
 					<p class="text-white p-3 mb-2">{{ errors.root }}</p>
-				</div> -->
+				</div>
 				<h3 class="text-2xl text-center">Login to your account</h3>
 				<form @submit.prevent="Submit">
 					<div class="mt-4">
@@ -63,7 +63,7 @@
 
 <script>
 	import { mapActions } from "vuex";
-	import User from "../../apis/User";
+
 	export default {
 		name: "Login",
 		data() {
@@ -78,6 +78,8 @@
 		methods: {
 			...mapActions({
 				login: "loginUser",
+				// "login",
+				// ["loginUser"]
 			}),
 
 			Submit() {

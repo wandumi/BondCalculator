@@ -1,17 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import * as bondCalc from "./modules/bondCalc.js";
+import * as user from "./modules/user.js";
 
 Vue.use(Vuex);
 
-import state from "./state";
-import * as getters from "./getters";
-import * as actions from "./actions";
-import * as mutations from "./mutations";
-
 export default new Vuex.Store({
 	// namespace: true,
-	state,
-	mutations,
-	actions,
-	getters,
+	modules: {
+		bondCalc,
+		user,
+	},
 });

@@ -54,6 +54,9 @@
 				isOpen: false,
 			};
 		},
+		mounted() {
+			this.user;
+		},
 		created() {
 			const handleEscape = (e) => {
 				if (e.key === "Esc" || e.key === "Escape") {
@@ -68,8 +71,9 @@
 			});
 		},
 		methods: {
-			logoutUser() {
-				this.logout;
+			async logoutUser() {
+				await this.logout;
+				await this.$router.replace({ name: "Home" });
 			},
 		},
 		computed: {
