@@ -71,9 +71,8 @@
 			});
 		},
 		methods: {
-			async logoutUser() {
-				await this.logout;
-				await this.$router.replace({ name: "Home" });
+			logoutUser() {
+				this.logout;
 			},
 		},
 		computed: {

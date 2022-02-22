@@ -6,15 +6,10 @@ import "./index.css";
 import Vuelidate from "vuelidate";
 import "nprogress/nprogress";
 import axios from "axios";
-import localforage from "localforage";
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
-// axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-localforage.config({
-	driver: localforage.LOCALSTORAGE,
-	storeName: "questComm",
-});
+
 Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
@@ -37,8 +32,12 @@ Vue.filter("money", function (value) {
 	return formatter.format(value);
 });
 
-new Vue({
-	router,
-	store,
-	render: (h) => h(App),
-}).$mount("#app");
+// console.log("vuex ", store);
+
+store.dispatch("getUserData").then(() => {
+	new Vue({
+		router,
+		store,
+		render: (h) => h(App),
+	}).$mount("#app");
+});

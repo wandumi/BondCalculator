@@ -40,10 +40,10 @@ export const mutations = {
 	},
 
 	/** set the logged in user data */
-	setUserData(rootState, data) {
-		rootState.user.data = data;
-		// localStorage.setItem("user", JSON.stringify(data.name));
-	},
+	// setUserData(rootState, data) {
+	// 	rootState.user.data = data;
+	// 	// localStorage.setItem("user", JSON.stringify(data.name));
+	// },
 };
 
 export const actions = {
@@ -51,15 +51,11 @@ export const actions = {
 	loginUser({ commit, dispatch }, { payload, context }) {
 		return User.login(payload)
 			.then((response) => {
-				commit("setUserToken", response.data.jwt);
-				commit("setLoggedIn", true);
-
-				dispatch("getUser");
+				dispatch("getUserData");
 
 				router.push({ name: "Dashboard" });
 			})
 			.catch((error) => {
-				console.log(error);
 				context.errors = error.response.data.errors;
 			});
 	},
@@ -68,7 +64,7 @@ export const actions = {
 	registerUser({ commit }, { payload, context }) {
 		return User.register(payload)
 			.then((response) => {
-				console.log("Submitted", response.data);
+				router.push({ name: "Login" });
 			})
 			.catch((error) => {
 				context.errors = error.response.data.errors;
@@ -76,25 +72,28 @@ export const actions = {
 	},
 
 	/** get the logged in user data */
-	getUser({ commit, dispatch }) {
+	getUserData({ commit, dispatch }) {
 		return axios
 			.get("/api/user")
 			.then((response) => {
 				commit("setUserData", response.data);
+				commit("setUserToken", response.data.jwt);
+				commit("setLoggedIn", true);
 			})
-			.catch((errors) => {
+			.catch(() => {
 				dispatch("getLogout");
-				console.log("There was and error" + errors);
 			});
 	},
 
 	getLogout({ commit }) {
-		commit("setUserToken", "");
-		commit("setLoggedIn", false);
-		commit("setUserData", {});
+		return axios.post("/api/logout").then(() => {
+			commit("setUserToken", "");
+			commit("setLoggedIn", false);
+			commit("setUserData", {});
 
-		localStorage.setItem("isLoggedIn", false);
-		router.push("/");
+			localStorage.setItem("isLoggedIn", false);
+			router.replace({ name: "Login" });
+		});
 	},
 };
 

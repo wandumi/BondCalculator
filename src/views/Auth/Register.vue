@@ -11,6 +11,7 @@
 							placeholder="Username"
 							class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 							v-model="form.name"
+							:class="{ 'border-red-500': errors.name }"
 						/><span class="text-red-600" v-if="errors.name">
 							{{ errors.name[0] }}
 						</span>
@@ -22,6 +23,7 @@
 							placeholder="Email"
 							class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 							v-model="form.email"
+							:class="{ 'border-red-500': errors.email }"
 						/>
 						<span class="w-full text-red-600" v-if="errors.email">
 							{{ errors.email[0] }}
@@ -34,6 +36,7 @@
 							placeholder="Password"
 							class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 							v-model="form.password"
+							:class="{ 'border-red-500': errors.password }"
 						/>
 						<span class="text-red-600" v-if="errors.password">
 							{{ errors.password[0] }}
@@ -46,6 +49,7 @@
 							placeholder="Password"
 							class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 							v-model="form.password_confirm"
+							:class="{ 'border-red-500': errors.password_confirm }"
 						/>
 						<span class="text-red-600" v-if="errors.password_confirm">
 							{{ errors.password_confirm[0] }}
@@ -99,24 +103,15 @@
 			...mapActions({
 				register: "registerUser",
 			}),
-			// register() {
-			// 	User.register(this.form)
-			// 		.then((response) => {
-			// 			console.log(response);
-			// 			localStorage.setItem("auth", "true");
-			// 			this.$router.push({ name: "Login" });
-			// 		})
-			// 		.catch((error) => {
-			// 			if (error.response.status === 422) {
-			// 				this.errors = error.response.data.errors;
-			// 			}
-			// 			console.log(error);
-			// 		});
-			// },
+
 			Submit() {
 				this.register({
 					payload: this.form,
 					context: this,
+				}).then((response) => {
+					if (response.status === 422 || response.status === 401) {
+						this.errors = response.data.errors;
+					}
 				});
 			},
 		},

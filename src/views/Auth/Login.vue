@@ -2,10 +2,10 @@
 	<div class="mt-40 h-screen">
 		<div class="max-w-lg mx-auto">
 			<div class="p-10 m-10 text-left bg-white shadow-xl">
-				<div class="bg-red-600 text-white" v-if="errors.message">
-					<p class="text-white p-3 mb-2">{{ errors.root }}</p>
-				</div>
 				<h3 class="text-2xl text-center">Login to your account</h3>
+				<div class="bg-red-600 text-white mt-3" v-if="errors.invalid">
+					<p class="text-white text-center p-3 mb-2">{{ errors.invalid }}</p>
+				</div>
 				<form @submit.prevent="Submit">
 					<div class="mt-4">
 						<div>
