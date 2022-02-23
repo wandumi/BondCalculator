@@ -14,6 +14,9 @@ const routes = [
 		path: "/",
 		name: "Home",
 		component: Home,
+		meta: {
+			requiresVisitor: true,
+		},
 	},
 	{
 		path: "/about",
@@ -23,31 +26,49 @@ const routes = [
 		// which is lazy-loaded when the route is visited.
 		component: () =>
 			import(/* webpackChunkName: "about" */ "../views/pages/About.vue"),
+		meta: {
+			requiresVisitor: true,
+		},
 	},
 	{
 		path: "/auth/login",
 		name: "Login",
 		component: Login,
+		meta: {
+			requiresVisitor: true,
+		},
 	},
 	{
 		path: "/auth/register",
 		name: "Register",
 		component: Register,
+		meta: {
+			requiresVisitor: true,
+		},
 	},
 	{
 		path: "/auth/dashboard",
 		name: "Dashboard",
 		component: Dashboard,
+		meta: {
+			requiresAuth: true,
+		},
 	},
 	{
 		path: "/profile",
 		name: "Profile",
 		component: Profile,
+		meta: {
+			requiresAuth: true,
+		},
 	},
 	{
 		path: "/settings",
 		name: "Settings",
 		component: Settings,
+		meta: {
+			requiresAuth: true,
+		},
 	},
 ];
 

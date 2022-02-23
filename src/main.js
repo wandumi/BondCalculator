@@ -32,7 +32,29 @@ Vue.filter("money", function (value) {
 	return formatter.format(value);
 });
 
-// console.log("vuex ", store);
+// router.beforeEach((to, from, next) => {
+// 	if (to.matched.some((record) => record.meta.requiresAuth)) {
+// 		if (!store.getters.getUser.authenticated) {
+// 			// next({
+// 			// 	name: "Login",
+// 			// });
+// 			return { name: "Login" };
+// 		} else {
+// 			next();
+// 		}
+// 	} else if (to.matched.some((record) => record.meta.requiresVisitor)) {
+// 		if (store.getters.getUser.authenticated) {
+// 			// next({
+// 			// 	name: "Dashboard",
+// 			// });
+// 			return { name: "Dashboard" };
+// 		} else {
+// 			next();
+// 		}
+// 	} else {
+// 		next();
+// 	}
+// });
 
 store.dispatch("getUserData").then(() => {
 	new Vue({
