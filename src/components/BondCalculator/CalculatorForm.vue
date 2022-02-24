@@ -91,17 +91,6 @@
 					</label>
 				</div>
 			</form>
-			<!-- <div class="mt-5">
-				<div>Transfer: {{ transferDuty | moneyCurrency }}</div>
-				<div>Total Vat: {{ totalVatPurchase | moneyCurrency }}</div>
-				<div>Transfer Cost: {{ totalTransferCost | moneyCurrency }}</div>
-
-				<div>{{ this.getBonds }}</div>
-			</div>
-			<div>
-				<h2>Vat Calculator Function</h2>
-				<div></div>
-			</div> -->
 		</div>
 	</div>
 </template>
@@ -193,7 +182,6 @@
 					}
 				}
 
-				console.log(electronic_ins_fee);
 				// not common varibles
 				if (electronic_ins_fee != 0) {
 					const totalCost = parseFloat(
@@ -207,6 +195,7 @@
 					return (totalCost * flotvat) / 100;
 				}
 
+				// purchase
 				if (purchasekorbitec_gen_fee != 0) {
 					const totalCost = parseFloat(
 						flotTarrif + flotsearch + flotpurchasekorbitec + flotpost

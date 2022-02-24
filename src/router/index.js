@@ -6,6 +6,7 @@ import Register from "../views/Auth/Register.vue";
 import Profile from "../views/Auth/Profile.vue";
 import Settings from "../views/Auth/Settings.vue";
 import Dashboard from "../views/Auth/Dashboard.vue";
+import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -14,9 +15,6 @@ const routes = [
 		path: "/",
 		name: "Home",
 		component: Home,
-		meta: {
-			requiresVisitor: true,
-		},
 	},
 	{
 		path: "/about",
@@ -26,25 +24,16 @@ const routes = [
 		// which is lazy-loaded when the route is visited.
 		component: () =>
 			import(/* webpackChunkName: "about" */ "../views/pages/About.vue"),
-		meta: {
-			requiresVisitor: true,
-		},
 	},
 	{
 		path: "/auth/login",
 		name: "Login",
 		component: Login,
-		meta: {
-			requiresVisitor: true,
-		},
 	},
 	{
 		path: "/auth/register",
 		name: "Register",
 		component: Register,
-		meta: {
-			requiresVisitor: true,
-		},
 	},
 	{
 		path: "/auth/dashboard",

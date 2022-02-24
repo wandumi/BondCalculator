@@ -54,7 +54,7 @@
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								<tr v-for="common in defaultData" :key="common.id">
+								<tr v-for="common in this.defaultData" :key="common.id">
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="ml-0">
@@ -331,24 +331,17 @@
 	// import BaseInput from "../Base/BaseInput.vue";
 	import { required, minLength, decimal } from "vuelidate/lib/validators";
 	import axios from "axios";
+	import { mapActions, mapGetters } from "vuex";
 	export default {
 		name: "defaultSettings",
 
 		created() {
-			axios
-				.get("http://127.0.0.1:8000/api/default_settings")
-				.then((response) => {
-					this.defaultData = response.data.data;
-					console.log(response.data.data);
-				})
-				.catch((errors) => {
-					console.log("There was and error" + errors);
-				});
+			this.defaultData;
+			this.getDefaultData;
 		},
 
 		data() {
 			return {
-				defaultData: "",
 				defaultSettings: {
 					vat_amount: "",
 					deeds_office: "",
@@ -410,6 +403,14 @@
 					// Do the submit here to the database
 				}
 			},
+		},
+		computed: {
+			...mapActions({
+				getDefaultData: "getDefaultData",
+			}),
+			...mapGetters({
+				defaultData: "getDefaults",
+			}),
 		},
 	};
 </script>

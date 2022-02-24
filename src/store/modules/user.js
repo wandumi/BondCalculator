@@ -1,7 +1,6 @@
 import User from "../../apis/User";
 import axios from "axios";
 import router from "../../router";
-import { reject } from "lodash";
 
 export const namespace = true;
 
@@ -99,9 +98,5 @@ export const getters = {
 	/**get the user */
 	getUser(rootState) {
 		return rootState.user;
-	},
-
-	getLoggedIn(rootState) {
-		return rootState.authenticated;
 	},
 };

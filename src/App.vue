@@ -6,6 +6,8 @@
 		<!-- Content -->
 		<div class="container mx-auto">
 			<router-view />
+			<!-- <p>this is my store {{ this.$store.state.user.user.authenticated }}</p>
+			<p>this are getters {{ this.$store.getters.getUser.authenticated }}</p> -->
 		</div>
 
 		<!-- Footer -->

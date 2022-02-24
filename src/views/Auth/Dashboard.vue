@@ -16,10 +16,8 @@
 	import { mapGetters } from "vuex";
 	export default {
 		name: "dashboard",
-		created() {
-			setInterval(() => {
-				this.user;
-			}, 5000);
+		mounted() {
+			this.user;
 		},
 		computed: {
 			...mapGetters({

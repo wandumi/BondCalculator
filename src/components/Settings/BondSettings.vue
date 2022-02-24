@@ -49,7 +49,7 @@
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								<tr v-for="bond in bondData" :key="bond.id">
+								<tr v-for="bond in this.bondData" :key="bond.id">
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="ml-0">
@@ -123,7 +123,10 @@
 									class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
 								>
 									<option>Choose a value</option>
-									<option v-for="purchase in purchaseData" :key="purchase.id">
+									<option
+										v-for="purchase in this.purchaseData"
+										:key="purchase.id"
+									>
 										{{ purchase.start_amount }} - {{ purchase.end_amount }}
 									</option>
 								</select>
@@ -225,41 +228,20 @@
 
 <script>
 	// import BaseInput from "../Base/BaseInput.vue";
-	import {
-		required,
-		minLength,
-		numeric,
-		decimal,
-	} from "vuelidate/lib/validators";
+	import { required, minLength, decimal } from "vuelidate/lib/validators";
 	import axios from "axios";
+	import { mapActions, mapGetters } from "vuex";
 	export default {
 		name: "bondSettings",
 
 		created() {
-			axios
-				.get("http://127.0.0.1:8000/api/bond_settings")
-				.then((response) => {
-					this.bondData = response.data.data;
-					console.log(response.data.data);
-				})
-				.catch((errors) => {
-					console.log("There was and error" + errors);
-				});
-			axios
-				.get("http://127.0.0.1:8000/api/purchase_settings")
-				.then((response) => {
-					this.purchaseData = response.data.data;
-					console.log(response.data.data);
-				})
-				.catch((errors) => {
-					console.log("There was and error" + errors);
-				});
+			this.getBondData;
+			this.purchaseData;
+			this.bondData;
 		},
 
 		data() {
 			return {
-				bondData: "",
-				purchaseData: "",
 				bondSettings: {
 					korbitec_gen_fee: "",
 					electronic_ins_fee: "",
@@ -300,6 +282,16 @@
 					// Do the submit here to the database
 				}
 			},
+		},
+		computed: {
+			...mapActions({
+				getBondData: "getBondData",
+				getPurchaseData: "getPurchaseData",
+			}),
+			...mapGetters({
+				bondData: "getBondData",
+				purchaseData: "getPurchase",
+			}),
 		},
 	};
 </script>

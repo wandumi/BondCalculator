@@ -1,71 +1,71 @@
 import axios from "axios";
-import Bond from "../../apis/Bond";
+import Bond from "../../apis/Public";
 
 export const state = {
 	// Bond State
-	bondData: [],
+	bondPublic: [],
 	// Transfer State
-	purchaseData: [],
+	purchasePublic: [],
 	// Default State
-	defaultData: [],
+	defaultPublic: [],
 	// transerDuty
-	transferData: [],
+	transferPublic: [],
 
 	/**Transfer Cost */
-	transferDuty: "",
-	vatCharge: "",
-	totalPurchase: "",
+	transferDutyPublic: "",
+	vatChargePublic: "",
+	totalPurchasePublic: "",
 
 	/**Bond Cost */
-	totalBond: "",
-	vatBond: "",
+	totalBondPublic: "",
+	vatBondPublic: "",
 };
 
 export const mutations = {
 	// set the default settings
-	setDefaultData(state, products) {
+	PUBLIC_DEFAULT_DATA(state, products) {
 		state.defaultData = products;
 	},
 
 	// get the bond settings
-	setBondData(state, bonds) {
+	PUBLIC_BOND_DATA(state, bonds) {
 		state.bondData = bonds;
 	},
 
 	// set the transaciton settings
-	setPurchaseData(state, purchase) {
+	PUBLIC_PURCHASE_DATA(state, purchase) {
 		state.purchaseData = purchase;
 	},
 
 	// set transferData
-	setTransferData(state, transfer) {
+	PUBLIC_PURCHASE_DATA(state, transfer) {
 		state.transferData = transfer;
 	},
 
 	/**Set the Purchase */
 
 	//Total for the transfer Cost
-	TOTAL_TRANSFER_COST(state, totalCost) {
+	PUBLIC_TOTAL_TRANSFER_COST(state, totalCost) {
 		state.totalPurchase = totalCost;
 	},
 
 	// transfer duty
-	TRANSFER_DUTY(state, transferDuty) {
+	PUBLIC_TRANSFER_DUTY(state, transferDuty) {
 		state.transferDuty = transferDuty;
 	},
 
 	// total vat purchase
-	VAT_CHARGE(state, vatCharge) {
+	PUBLIC_VAT_CHARGE(state, vatCharge) {
 		state.vatCharge = vatCharge;
 	},
 
 	// get the tatal bond Cost
-	TOTAL_BOND_COST(state, totalBond) {
+	PUBLIC_TOTAL_BOND_COST(state, totalBond) {
 		state.totalBond = totalBond;
 	},
 
 	// get the vat on bond
-	VAT_BOND(state, vatBond) {
+	PUBLIC_VAT_BOND(state, vatBond) {
 		state.vatBond = vatBond;
 	},
 };
@@ -152,7 +152,7 @@ export const getters = {
 	},
 
 	// get the bonds data
-	getBonds(state) {
+	getBondData(state) {
 		return state.bondData;
 	},
 

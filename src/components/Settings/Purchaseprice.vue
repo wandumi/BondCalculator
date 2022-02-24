@@ -61,7 +61,7 @@
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								<tr v-for="transfer in transferData" :key="transfer.id">
+								<tr v-for="transfer in this.purchaseData" :key="transfer.id">
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="text-sm font-medium text-gray-900">
@@ -344,19 +344,13 @@
 	// import BaseInput from "../Base/BaseInput.vue";
 	import { required, minLength, decimal } from "vuelidate/lib/validators";
 	import axios from "axios";
+	import { mapActions, mapGetters } from "vuex";
 	export default {
-		name: "transferSettings",
+		name: "purchaseData",
 
 		created() {
-			axios
-				.get("http://127.0.0.1:8000/api/purchase_settings")
-				.then((response) => {
-					this.transferData = response.data.data;
-					console.log(response.data.data);
-				})
-				.catch((errors) => {
-					console.log("There was and error" + errors);
-				});
+			this.getPurchaseData;
+			this.purchaseData;
 		},
 
 		data() {
@@ -423,6 +417,14 @@
 					// Do the submit here to the database
 				}
 			},
+		},
+		computed: {
+			...mapActions({
+				getPurchaseData: "getPurchaseData",
+			}),
+			...mapGetters({
+				purchaseData: "getPurchase",
+			}),
 		},
 	};
 </script>

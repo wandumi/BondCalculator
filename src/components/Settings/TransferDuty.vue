@@ -50,7 +50,7 @@
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								<tr v-for="transfer in transferDuty" :key="transfer.id">
+								<tr v-for="transfer in this.transferData" :key="transfer.id">
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="text-sm font-medium text-gray-900">
@@ -319,24 +319,17 @@
 	// import BaseInput from "../Base/BaseInput.vue";
 	import { required, minLength, decimal } from "vuelidate/lib/validators";
 	import axios from "axios";
+	import { mapActions, mapGetters } from "vuex";
 	export default {
-		name: "transferDuty",
+		name: "transferData",
 
 		created() {
-			axios
-				.get("http://127.0.0.1:8000/api/transfer_duty")
-				.then((response) => {
-					this.transferDuty = response.data.data;
-					console.log(response.data.data);
-				})
-				.catch((errors) => {
-					console.log("There was and error" + errors);
-				});
+			this.transferDuty;
+			this.transferData;
 		},
 
 		data() {
 			return {
-				transferDuty: "",
 				transferduty: {
 					start_amount: "",
 					end_amount: "",
@@ -393,6 +386,14 @@
 					// Do the submit here to the database
 				}
 			},
+		},
+		computed: {
+			...mapActions({
+				transferDuty: "getTransferData",
+			}),
+			...mapGetters({
+				transferData: "getTransfer",
+			}),
 		},
 	};
 </script>
