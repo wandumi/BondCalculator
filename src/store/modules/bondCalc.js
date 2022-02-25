@@ -87,6 +87,7 @@ export const actions = {
 	getBondData({ commit }) {
 		return Bond.bondData()
 			.then((response) => {
+				// debugger;
 				commit("setBondData", response.data.data);
 				return Promise.resolve();
 			})

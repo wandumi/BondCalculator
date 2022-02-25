@@ -289,7 +289,7 @@
 				getPurchaseData: "getPurchaseData",
 			}),
 			...mapGetters({
-				bondData: "getBondData",
+				bondData: "getBonds",
 				purchaseData: "getPurchase",
 			}),
 		},
