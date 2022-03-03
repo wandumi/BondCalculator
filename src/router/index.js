@@ -4,7 +4,7 @@ import Home from "../views/pages/Home.vue";
 import Login from "../views/Auth/Login.vue";
 import Register from "../views/Auth/Register.vue";
 import Profile from "../views/Auth/Profile.vue";
-import Settings from "../views/Auth/Settings.vue";
+import Settings from "../views/Auth/Settings/Settings.vue";
 import Dashboard from "../views/Auth/Dashboard.vue";
 import store from "../store";
 
@@ -58,6 +58,27 @@ const routes = [
 		meta: {
 			requiresAuth: true,
 		},
+	},
+
+	{
+		path: "/bonds",
+		name: "Bonds",
+		component: () => import("../views/Auth/Settings/Bonds.vue"),
+	},
+	{
+		path: "/purchases",
+		name: "Purchases",
+		component: () => import("../views/Auth/Settings/Purchases.vue"),
+	},
+	{
+		path: "/defaults",
+		name: "Defaults",
+		component: () => import("../views/Auth/Settings/Defaults.vue"),
+	},
+	{
+		path: "/transfers",
+		name: "Transfers",
+		component: () => import("../views/Auth/Settings/Transfers.vue"),
 	},
 ];
 

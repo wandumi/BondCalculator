@@ -4,17 +4,12 @@ import Bond from "../../apis/Bond";
 export const state = {
 	// Bond State
 	bondData: [],
-	// Transfer State
-	purchaseData: [],
-	// Default State
-	defaultData: [],
-	// transerDuty
-	transferData: [],
+
+	totalPurchase: "",
 
 	/**Transfer Cost */
 	transferDuty: "",
 	vatCharge: "",
-	totalPurchase: "",
 
 	/**Bond Cost */
 	totalBond: "",
@@ -22,27 +17,10 @@ export const state = {
 };
 
 export const mutations = {
-	// set the default settings
-	setDefaultData(state, products) {
-		state.defaultData = products;
-	},
-
 	// get the bond settings
 	setBondData(state, bonds) {
 		state.bondData = bonds;
 	},
-
-	// set the transaciton settings
-	setPurchaseData(state, purchase) {
-		state.purchaseData = purchase;
-	},
-
-	// set transferData
-	setTransferData(state, transfer) {
-		state.transferData = transfer;
-	},
-
-	/**Set the Purchase */
 
 	//Total for the transfer Cost
 	TOTAL_TRANSFER_COST(state, totalCost) {
@@ -71,18 +49,6 @@ export const mutations = {
 };
 
 export const actions = {
-	/** get the default settings */
-	getDefaultData({ commit }) {
-		return Bond.defaultData()
-			.then((response) => {
-				commit("setDefaultData", response.data.data);
-				return Promise.resolve();
-			})
-			.catch((errors) => {
-				console.log("There was and error" + errors);
-			});
-	},
-
 	/** get bond settings */
 	getBondData({ commit }) {
 		return Bond.bondData()
@@ -94,35 +60,6 @@ export const actions = {
 			.catch((errors) => {
 				console.log("There was and error" + errors);
 			});
-	},
-
-	/** get the transaciton settings */
-	getPurchaseData({ commit }) {
-		return Bond.purchaseData()
-			.then((response) => {
-				commit("setPurchaseData", response.data.data);
-				return Promise.resolve();
-			})
-			.catch((errors) => {
-				console.log("There was and error" + errors);
-			});
-	},
-
-	// transferDuty
-	getTransferData({ commit }) {
-		return Bond.transferData()
-			.then((response) => {
-				commit("setTransferData", response.data.data);
-				return Promise.resolve();
-			})
-			.catch((errors) => {
-				console.log("There was and error" + errors);
-			});
-	},
-
-	/** get Total Purchase */
-	getTotalPurchase({ commit }, total) {
-		commit("TOTAL_TRANSFER_COST", total);
 	},
 
 	// get Vat amount
@@ -144,27 +81,17 @@ export const actions = {
 	getVatBond({ commit }, total) {
 		commit("VAT_BOND", total);
 	},
+
+	/** get Total Purchase */
+	getTotalPurchase({ commit }, total) {
+		commit("TOTAL_TRANSFER_COST", total);
+	},
 };
 
 export const getters = {
-	// get the defaults data
-	getDefaults(state) {
-		return state.defaultData;
-	},
-
 	// get the bonds data
 	getBonds(state) {
 		return state.bondData;
-	},
-
-	// get the purchase data
-	getPurchase(state) {
-		return state.purchaseData;
-	},
-
-	// transferdata
-	getTransfer(state) {
-		return state.transferData;
 	},
 
 	// get the totalCost

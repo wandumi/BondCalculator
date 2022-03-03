@@ -355,7 +355,6 @@
 
 		data() {
 			return {
-				transferData: "",
 				transferSettings: {
 					start_amount: "",
 					end_amount: "",

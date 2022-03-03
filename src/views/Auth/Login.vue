@@ -2,10 +2,13 @@
 	<div class="mt-40 h-screen">
 		<div class="max-w-lg mx-auto">
 			<div class="p-10 m-10 text-left bg-white shadow-xl">
-				<h3 class="text-2xl text-center">Login to your account</h3>
-				<div class="bg-red-600 text-white mt-3" v-if="errors.invalid">
-					<p class="text-white text-center p-3 mb-2">{{ errors.invalid }}</p>
+				<div class="mb-7">
+					<p v-if="errors.errors" class="bg-red-600 text-white text-center p-2">
+						Please fill out the required fields
+					</p>
 				</div>
+				<h3 class="text-2xl text-center">Login to your account</h3>
+
 				<form @submit.prevent="Submit">
 					<div class="mt-4">
 						<div>
@@ -15,6 +18,7 @@
 								placeholder="Email"
 								class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 								v-model="form.email"
+								:class="{ 'border-red-500': errors.email }"
 							/>
 							<span class="w-full text-red-600" v-if="errors.email">
 								{{ errors.email[0] }}
@@ -27,6 +31,7 @@
 								placeholder="Password"
 								class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 								v-model="form.password"
+								:class="{ 'border-red-500': errors.password }"
 							/>
 							<span class="text-red-600" v-if="errors.password">
 								{{ errors.password[0] }}
@@ -78,8 +83,6 @@
 		methods: {
 			...mapActions({
 				login: "loginUser",
-				// "login",
-				// ["loginUser"]
 			}),
 
 			Submit() {

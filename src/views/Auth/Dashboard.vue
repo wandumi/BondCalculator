@@ -16,7 +16,7 @@
 	import { mapGetters } from "vuex";
 	export default {
 		name: "dashboard",
-		mounted() {
+		created() {
 			this.user;
 		},
 		computed: {
