@@ -7,16 +7,16 @@ export default {
 		Csrf.getCookie();
 		return Api.get("/api/default_settings");
 	},
-	async defaultPost() {
+	async defaultPost(form) {
 		Csrf.getCookie();
-		return Api.post("/api/default_settings");
+		return Api.post("/api/default_settings", form);
 	},
-	async defaultUpdate() {
+	async defaultUpdate(form) {
 		Csrf.getCookie();
-		return Api.put("/api/default_settings");
+		return Api.put("/api/default_settings", form);
 	},
-	async defaultDelete() {
+	async defaultDelete(id) {
 		Csrf.getCookie();
-		return Api.delete("/api/default_settings");
+		return Api.delete("/api/default_settings", id);
 	},
 };

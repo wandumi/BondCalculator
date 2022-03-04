@@ -1,4 +1,3 @@
-import axios from "axios";
 import Bond from "../../apis/Bond";
 
 export const state = {
@@ -18,8 +17,24 @@ export const state = {
 
 export const mutations = {
 	// get the bond settings
-	setBondData(state, bonds) {
+	getBondData(state, bonds) {
 		state.bondData = bonds;
+	},
+
+	// set transferData
+	SET_BONDS_DATA(state, bonds) {
+		let index = state.bondData.findIndex((p) => p.id == bonds.id);
+		if (index == -1) {
+			state.bondData.push(bonds);
+		} else {
+			Vue.set(state.bondData, index, bonds);
+		}
+		// state.transferData = transfer;
+	},
+
+	DELETE_DEFAULT_DATA(state, bonds) {
+		let index = state.bondData.findIndex((t) => t.id == bonds.id);
+		state.bondData.splice(index, 1);
 	},
 
 	//Total for the transfer Cost
@@ -54,11 +69,25 @@ export const actions = {
 		return Bond.bondData()
 			.then((response) => {
 				// debugger;
-				commit("setBondData", response.data.data);
+				commit("getBondData", response.data.data);
 				return Promise.resolve();
 			})
 			.catch((errors) => {
 				console.log("There was and error" + errors);
+			});
+	},
+
+	/** post the transfer Data */
+	setBondsData({ commit }, { payload, context }) {
+		return Bond.bondPost(payload)
+			.then((response) => {
+				// console.log(response);
+				commit("SET_BONDS_DATA", payload);
+				return Promise.resolve();
+			})
+			.catch((error) => {
+				console.log(error);
+				context.errors = error.response.data.errors;
 			});
 	},
 

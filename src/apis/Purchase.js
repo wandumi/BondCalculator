@@ -7,16 +7,16 @@ export default {
 		Csrf.getCookie();
 		return Api.get("/api/purchase_settings");
 	},
-	async purchasePost() {
+	async purchasePost(form) {
 		Csrf.getCookie();
-		return Api.post("/api/purchase_settings");
+		return Api.post("/api/purchase_settings", form);
 	},
-	async purchaseUpdate() {
+	async purchaseUpdate(form) {
 		Csrf.getCookie();
-		return Api.put("/api/purchase_settings");
+		return Api.put("/api/purchase_settings", form);
 	},
-	async purchaseDelete() {
+	async purchaseDelete(id) {
 		Csrf.getCookie();
-		return Api.delete("/api/purchase_settings");
+		return Api.delete("/api/purchase_settings", id);
 	},
 };

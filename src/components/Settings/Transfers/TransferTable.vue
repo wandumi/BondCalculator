@@ -1,13 +1,16 @@
 <template>
 	<div class="">
-		<div class="py-10 mb-20 lg:mx-20">
-			<div class="mb-10 pt-20 flex lg:justify-between justify-between">
+		<div class="py-20 mb-20 lg:mx-20">
+			<div class="mb-10 flex justify-between">
 				<h3 class="text-3xl font-semibold">TransferDuty Settings</h3>
-				<div>
-					<router-link to="#" class="bg-black p-2 text-center text-white"
-						>Add</router-link
-					>
-				</div>
+
+				<button
+					@click="showModal = true"
+					to="#"
+					class="bg-black p-2 text-center text-white"
+				>
+					Add
+				</button>
 			</div>
 			<div class="mb-10">
 				<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 lg:col-span-2">
@@ -124,6 +127,26 @@
 			</div> -->
 			</div>
 		</div>
+		<div
+			v-if="showModal"
+			class="bg-gray-800 bg-opacity-40 fixed inset-0 flex items-center justify-center"
+		>
+			<div class="fixed insert-0 z-10" @click="showModal = false"></div>
+			<div class="bg-white shadow rounded-md px-6 py-4 max-w-lg w-full z-20">
+				<div class="my-2">
+					<transfer-form />
+				</div>
+
+				<div class="mt-2">
+					<button
+						class="bg-gray-600 hover:bg-gray-800 text-white p-3 rounded w-full"
+						@click="showModal = false"
+					>
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -142,6 +165,11 @@
 			this.transferDuty;
 		},
 
+		data() {
+			return {
+				showModal: false,
+			};
+		},
 		computed: {
 			...mapActions({
 				transferDuty: "getTransferData",

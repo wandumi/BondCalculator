@@ -9,8 +9,24 @@ export const state = {
 
 export const mutations = {
 	/**Set the Purchase */
-	setPurchaseData(state, purchase) {
+	GET_PURCHASE_DATA(state, purchase) {
 		state.purchaseData = purchase;
+	},
+
+	// set transferData
+	SET_PURCHASE_DATA(state, purchase) {
+		let index = state.purchaseData.findIndex((p) => p.id == purchase.id);
+		if (index == -1) {
+			state.purchaseData.push(purchase);
+		} else {
+			Vue.set(state.purchaseData, index, purchase);
+		}
+		// state.transferData = transfer;
+	},
+
+	DELETE_PURCHASE_DATA(state, purchase) {
+		let index = state.purchaseData.findIndex((t) => t.id == purchase.id);
+		state.purchaseData.splice(index, 1);
 	},
 };
 
@@ -20,11 +36,26 @@ export const actions = {
 		return purchase
 			.purchaseData()
 			.then((response) => {
-				commit("setPurchaseData", response.data.data);
+				commit("GET_PURCHASE_DATA", response.data.data);
 				return Promise.resolve();
 			})
 			.catch((errors) => {
 				console.log("There was and error" + errors);
+			});
+	},
+
+	/** post the transfer Data */
+	setPurchaseData({ commit }, { payload, context }) {
+		console.log(payload);
+		return purchase
+			.purchasePost(payload)
+			.then((response) => {
+				commit("SET_PURCHASE_DATA", payload);
+				return Promise.resolve();
+			})
+			.catch((error) => {
+				console.log(error);
+				context.errors = error.response.data.errors;
 			});
 	},
 };

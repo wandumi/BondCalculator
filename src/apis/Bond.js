@@ -7,16 +7,16 @@ export default {
 		Csrf.getCookie();
 		return Api.get("/api/bond_settings");
 	},
-	async bondPost() {
+	async bondPost(form) {
 		Csrf.getCookie();
-		return Api.post("/api/bond_settings");
+		return Api.post("/api/bond_settings", form);
 	},
-	async bondUpdate() {
+	async bondUpdate(form) {
 		Csrf.getCookie();
-		return Api.put("/api/bond_settings");
+		return Api.put("/api/bond_settings", form);
 	},
-	async bondDelete() {
+	async bondDelete(id) {
 		Csrf.getCookie();
-		return Api.delete("/api/bond_settings");
+		return Api.delete("/api/bond_settings", id);
 	},
 };
