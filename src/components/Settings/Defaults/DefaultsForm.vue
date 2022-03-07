@@ -1,7 +1,8 @@
 <template>
 	<div>
-		<div>
-			<h3 class="text-2xl font-medium mb-8">Default Settings</h3>
+		<div class="flex align-items-center justify-between mb-8">
+			<h3 class="text-2xl font-medium">Default Settings</h3>
+			<button class="text-2xl font-medium" @click="!showModal">x</button>
 		</div>
 		<div>
 			<form @submit.prevent="onSubmit">

@@ -2,13 +2,9 @@
 	<div>
 		<div class="grid grid-cols-1 gap-2 bg-gray-600 p-4 text-white">
 			<!-- First Row -->
-			<div class="mt-5 mb-5 flex justify-between">
-				<h3 class="font-bold">Total cost</h3>
-				<p>R 0.00</p>
-			</div>
 
 			<!-- first Row -->
-			<div class="mb-5">
+			<div class="my-5">
 				<div class="flex justify-between">
 					<h3 class="font-bold">Total transfer costs</h3>
 					<p class="font-bold" v-if="this.getTotalPurchase">

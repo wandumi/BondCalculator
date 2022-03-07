@@ -29,7 +29,6 @@ export const mutations = {
 		} else {
 			Vue.set(state.bondData, index, bonds);
 		}
-		// state.transferData = transfer;
 	},
 
 	DELETE_DEFAULT_DATA(state, bonds) {
@@ -81,12 +80,11 @@ export const actions = {
 	setBondsData({ commit }, { payload, context }) {
 		return Bond.bondPost(payload)
 			.then((response) => {
-				// console.log(response);
+				console.log(response);
 				commit("SET_BONDS_DATA", payload);
 				return Promise.resolve();
 			})
 			.catch((error) => {
-				console.log(error);
 				context.errors = error.response.data.errors;
 			});
 	},

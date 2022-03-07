@@ -1,5 +1,5 @@
 <template>
-	<div class="h-screen">
+	<div class="">
 		<div class="py-20 mx-20">
 			<div class="grid place-content-center pb-10">
 				<h2 class="text-3xl text-center font-bold pb-5">

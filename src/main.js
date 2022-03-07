@@ -32,25 +32,6 @@ Vue.filter("money", function (value) {
 	return formatter.format(value);
 });
 
-function isLogged() {
-	return localStorage.getItem("token");
-}
-
-// router.beforeEach((to, from, next) => {
-// 	if (to.matched.some((record) => record.meta.requiresAuth)) {
-// 		if (!isLogged) {
-// 			next({
-// 				path: "/auth/login",
-// 				query: { redirect: to.fullPath },
-// 			});
-// 		} else {
-// 			next();
-// 		}
-// 	} else {
-// 		next();
-// 	}
-// });
-
 store.dispatch("getUserData").then(() => {
 	new Vue({
 		router,

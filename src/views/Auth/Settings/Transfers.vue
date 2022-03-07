@@ -1,6 +1,8 @@
 <template>
-	<div>
-		<transfers-duty />
+	<div class="h-screen">
+		<div class="py-10 lg:mx-20">
+			<transfers-duty />
+		</div>
 	</div>
 </template>
 

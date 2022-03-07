@@ -46,7 +46,6 @@ export const actions = {
 
 	/** post the transfer Data */
 	setPurchaseData({ commit }, { payload, context }) {
-		console.log(payload);
 		return purchase
 			.purchasePost(payload)
 			.then((response) => {
@@ -54,7 +53,6 @@ export const actions = {
 				return Promise.resolve();
 			})
 			.catch((error) => {
-				console.log(error);
 				context.errors = error.response.data.errors;
 			});
 	},

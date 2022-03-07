@@ -1,17 +1,20 @@
 <template>
-	<div class="mt-20">
+	<div class="m-8">
 		<div class="mb-10 flex justify-between">
-			<h3 class="text-3xl font-semibold">Purchase Price Settings</h3>
-			<button
-				@click="showModal = true"
-				to="#"
-				class="bg-black p-2 text-center text-white"
-			>
-				Add
-			</button>
+			<h3 class="text-3xl pl-0 font-semibold">Purchase Price Settings</h3>
+			<div>
+				<goback />
+				<button
+					@click="showModal = true"
+					to="#"
+					class="bg-green-600 p-2 text-center text-white ml-2"
+				>
+					Add
+				</button>
+			</div>
 		</div>
 		<div>
-			<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 lg:col-span-2">
+			<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-14 lg:col-span-2">
 				<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 					<div
 						class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
@@ -147,15 +150,14 @@
 </template>
 
 <script>
-	// import BaseInput from "../Base/BaseInput.vue";
-	import { required, minLength, decimal } from "vuelidate/lib/validators";
-	import axios from "axios";
 	import { mapActions, mapGetters } from "vuex";
 	import PurchaseForm from "./PurchaseForm.vue";
+	import Goback from "../../Base/Goback.vue";
 	export default {
 		name: "purchaseData",
 		components: {
 			PurchaseForm,
+			Goback,
 		},
 
 		created() {

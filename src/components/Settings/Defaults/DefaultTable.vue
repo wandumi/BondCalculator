@@ -1,17 +1,20 @@
 <template>
-	<div class="mt-10">
+	<div class="m-8">
 		<div class="mb-10 flex justify-between">
 			<h3 class="text-3xl font-semibold">Default Settings</h3>
-			<button
-				@click="showModal = true"
-				to="#"
-				class="bg-black p-2 text-center text-white"
-			>
-				Add
-			</button>
+			<div>
+				<goback />
+				<button
+					@click="showModal = true"
+					to="#"
+					class="bg-green-600 p-2 text-center text-white ml-2"
+				>
+					Add
+				</button>
+			</div>
 		</div>
-		<div class="">
-			<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 lg:col-span-2">
+		<div>
+			<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-14 lg:col-span-2">
 				<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 					<div
 						class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
@@ -140,12 +143,13 @@
 
 <script>
 	import defaultform from "./DefaultsForm.vue";
-	import axios from "axios";
 	import { mapActions, mapGetters } from "vuex";
+	import Goback from "../../Base/Goback.vue";
 	export default {
 		name: "defaultSettings",
 		components: {
 			defaultform,
+			Goback,
 		},
 		data() {
 			return {
