@@ -4,7 +4,7 @@ import Csrf from "./Csrf";
 export default {
 	/**Purchase Data */
 	async purchaseData() {
-		Csrf.getCookie();
+		// Csrf.getCookie();
 		return Api.get("/api/purchase_settings");
 	},
 	async purchasePost(form) {

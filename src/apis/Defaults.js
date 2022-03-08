@@ -4,7 +4,7 @@ import Csrf from "./Csrf";
 export default {
 	/**Defaults Data */
 	async defaultData() {
-		Csrf.getCookie();
+		// Csrf.getCookie();
 		return Api.get("/api/default_settings");
 	},
 	async defaultPost(form) {

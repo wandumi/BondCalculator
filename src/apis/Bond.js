@@ -4,7 +4,7 @@ import Csrf from "./Csrf";
 export default {
 	/** Bond Data */
 	async bondData() {
-		Csrf.getCookie();
+		// Csrf.getCookie();
 		return Api.get("/api/bond_settings");
 	},
 	async bondPost(form) {

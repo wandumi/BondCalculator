@@ -113,11 +113,12 @@
 									<td
 										class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
 									>
-										<a
-											href="#"
+										<button
+											@click="editPurchase(transfer)"
 											class="hover:text-white bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-sm"
-											>Edit</a
 										>
+											Edit
+										</button>
 									</td>
 								</tr>
 							</tbody>
@@ -169,6 +170,12 @@
 			return {
 				showModal: false,
 			};
+		},
+		methods: {
+			editPurchase(purchase) {
+				this.showModal = true;
+				console.log(purchase.id);
+			},
 		},
 
 		computed: {

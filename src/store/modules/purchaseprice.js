@@ -5,6 +5,7 @@ export const namespace = true;
 export const state = {
 	// Transfer State
 	purchaseData: [],
+	editMode: false,
 };
 
 export const mutations = {
@@ -55,6 +56,9 @@ export const actions = {
 			.catch((error) => {
 				context.errors = error.response.data.errors;
 			});
+	},
+	editPurchase(context, payload) {
+		context.state.editMode = true;
 	},
 };
 

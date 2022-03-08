@@ -4,7 +4,7 @@ import Csrf from "./Csrf";
 export default {
 	/**Transfer Data */
 	async transferData() {
-		Csrf.getCookie();
+		// Csrf.getCookie();
 		return Api.get("/api/transfer_duty");
 	},
 	async transferPost(form) {
