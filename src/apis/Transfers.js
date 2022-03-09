@@ -15,8 +15,8 @@ export default {
 		Csrf.getCookie();
 		return Api.put("/api/transfer_duty", form);
 	},
-	async transferDelete(id) {
+	async transferDelete(transfers) {
 		Csrf.getCookie();
-		return Api.delete("/api/transfer_duty", id);
+		return Api.delete(`/api/transfer_duty/${transfers.id}`);
 	},
 };

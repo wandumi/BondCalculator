@@ -110,6 +110,13 @@
 											class="hover:text-white bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-sm"
 											>Edit</a
 										>
+										<span class="m-1"></span>
+										<button
+											@click="deleteDefault(common)"
+											class="hover:text-white bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm"
+										>
+											Delete
+										</button>
 									</td>
 								</tr>
 							</tbody>
@@ -159,6 +166,18 @@
 		created() {
 			this.defaultData;
 			this.getDefaultData;
+		},
+		methods: {
+			editPurchase(purchase) {
+				this.showModal = true;
+				console.log(purchase.id);
+			},
+			deleteDefault(common) {
+				let response = confirm(`Are you sure you want to delete ${common.id}`);
+				if (response) {
+					this.$store.dispatch("deleteDefaults", common);
+				}
+			},
 		},
 
 		computed: {

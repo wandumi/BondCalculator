@@ -15,18 +15,11 @@ export const mutations = {
 
 	// set transferData
 	SET_DEFAULT_DATA(state, defaults) {
-		let index = state.defaultData.findIndex((p) => p.id == defaults.id);
-		if (index == -1) {
-			state.defaultData.push(defaults);
-		} else {
-			Vue.set(state.defaultData, index, defaults);
-		}
-		// state.transferData = transfer;
+		state.defaultData.unshift(defaults);
 	},
-
-	DELETE_DEFAULT_DATA(state, defaults) {
-		let index = state.defaultData.findIndex((t) => t.id == defaults.id);
-		state.defaultData.splice(index, 1);
+	DELETE_DEFAULT_DATA(state, common) {
+		let defaults = state.defaultData.filter((d) => d.id != common);
+		state.defaultData = defaults;
 	},
 };
 
@@ -53,9 +46,15 @@ export const actions = {
 				return Promise.resolve();
 			})
 			.catch((error) => {
-				console.log(error);
 				context.errors = error.response.data.errors;
 			});
+	},
+	deleteDefaults({ commit }, value) {
+		return defaults.defaultDelete(value).then((response) => {
+			if (response.status == 200 || response.status == 204) {
+				commit("DELETE_DEFAULT_DATA", value.id);
+			}
+		});
 	},
 };
 

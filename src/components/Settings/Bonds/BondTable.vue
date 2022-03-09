@@ -106,6 +106,13 @@
 											class="hover:text-white bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-sm"
 											>Edit</a
 										>
+										<span class="m-1"></span>
+										<button
+											@click="deleteBond(bond)"
+											class="hover:text-white bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm"
+										>
+											Delete
+										</button>
 									</td>
 								</tr>
 							</tbody>
@@ -162,6 +169,18 @@
 				},
 				showModal: false,
 			};
+		},
+		methods: {
+			editPurchase(purchase) {
+				this.showModal = true;
+				console.log(purchase.id);
+			},
+			deleteBond(bond) {
+				let response = confirm(`Are you sure you want to delete ${bond.id}`);
+				if (response) {
+					this.$store.dispatch("deleteBond", bond);
+				}
+			},
 		},
 
 		computed: {

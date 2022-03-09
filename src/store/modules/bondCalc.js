@@ -23,15 +23,10 @@ export const mutations = {
 
 	// set transferData
 	SET_BONDS_DATA(state, bonds) {
-		let index = state.bondData.findIndex((p) => p.id == bonds.id);
-		if (index == -1) {
-			state.bondData.push(bonds);
-		} else {
-			Vue.set(state.bondData, index, bonds);
-		}
+		state.bondData.unshift(bond);
 	},
 
-	DELETE_DEFAULT_DATA(state, bonds) {
+	DELETE_BOND_DATA(state, bonds) {
 		let index = state.bondData.findIndex((t) => t.id == bonds.id);
 		state.bondData.splice(index, 1);
 	},
@@ -87,6 +82,14 @@ export const actions = {
 			.catch((error) => {
 				context.errors = error.response.data.errors;
 			});
+	},
+
+	deleteBond({ commit }, bonds) {
+		return Bond.bondDelete(bonds).then((response) => {
+			if (response.status == 200 || response.status == 204) {
+				commit("DELETE_BOND_DATA", bonds.id);
+			}
+		});
 	},
 
 	// get Vat amount

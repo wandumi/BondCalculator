@@ -14,13 +14,7 @@ export const mutations = {
 	},
 	// set transferData
 	SET_TRANSFER_DATA(state, transfer) {
-		let index = state.transferData.findIndex((t) => t.id == transfer.id);
-		if (index == -1) {
-			state.transferData.push(transfer);
-		} else {
-			Vue.set(state.transferData, index, transfer);
-		}
-		// state.transferData = transfer;
+		state.purchaseData.unshift(transfer);
 	},
 
 	DELETE_TRANSFER_DATA(state, transfer) {
@@ -56,6 +50,13 @@ export const actions = {
 				console.log(error);
 				context.errors = error.response.data.errors;
 			});
+	},
+	deleteTranser({ commit }, transfer) {
+		return transfer.transferDelete(transfer).then((response) => {
+			if (response.status == 200 || response.status == 204) {
+				commit("DELETE_PURCHASE_DATA", transfer.id);
+			}
+		});
 	},
 };
 

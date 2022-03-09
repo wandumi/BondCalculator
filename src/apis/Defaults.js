@@ -15,8 +15,8 @@ export default {
 		Csrf.getCookie();
 		return Api.put("/api/default_settings", form);
 	},
-	async defaultDelete(id) {
+	async defaultDelete(defaults) {
 		Csrf.getCookie();
-		return Api.delete("/api/default_settings", id);
+		return Api.delete(`/api/default_settings/${defaults.id}`);
 	},
 };

@@ -5,7 +5,6 @@ export const namespace = true;
 export const state = {
 	// Transfer State
 	purchaseData: [],
-	editMode: false,
 };
 
 export const mutations = {
@@ -16,18 +15,12 @@ export const mutations = {
 
 	// set transferData
 	SET_PURCHASE_DATA(state, purchase) {
-		let index = state.purchaseData.findIndex((p) => p.id == purchase.id);
-		if (index == -1) {
-			state.purchaseData.push(purchase);
-		} else {
-			Vue.set(state.purchaseData, index, purchase);
-		}
-		// state.transferData = transfer;
+		state.purchaseData.unshift(purchase);
 	},
 
-	DELETE_PURCHASE_DATA(state, purchase) {
-		let index = state.purchaseData.findIndex((t) => t.id == purchase.id);
-		state.purchaseData.splice(index, 1);
+	DELETE_PURCHASE_DATA(state, purchaseID) {
+		let purchase = state.purchaseData.filter((p) => p.id != purchaseID);
+		state.purchaseData = purchase;
 	},
 };
 
@@ -57,8 +50,12 @@ export const actions = {
 				context.errors = error.response.data.errors;
 			});
 	},
-	editPurchase(context, payload) {
-		context.state.editMode = true;
+	deletePurchase({ commit }, purchaseID) {
+		return purchase.purchaseDelete(purchaseID).then((response) => {
+			if (response.status == 200 || response.status == 204) {
+				commit("DELETE_PURCHASE_DATA", purchaseID.id);
+			}
+		});
 	},
 };
 

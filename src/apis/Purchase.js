@@ -15,8 +15,8 @@ export default {
 		Csrf.getCookie();
 		return Api.put("/api/purchase_settings", form);
 	},
-	async purchaseDelete(id) {
+	async purchaseDelete(purchase) {
 		Csrf.getCookie();
-		return Api.delete("/api/purchase_settings", id);
+		return Api.delete(`/api/purchase_settings/${purchase.id}`);
 	},
 };

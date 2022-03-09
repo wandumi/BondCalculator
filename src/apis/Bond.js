@@ -15,8 +15,8 @@ export default {
 		Csrf.getCookie();
 		return Api.put("/api/bond_settings", form);
 	},
-	async bondDelete(id) {
+	async bondDelete(bond) {
 		Csrf.getCookie();
-		return Api.delete("/api/bond_settings", id);
+		return Api.delete(`/api/bond_settings/${bond.id}`);
 	},
 };

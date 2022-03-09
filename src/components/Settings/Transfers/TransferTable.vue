@@ -101,11 +101,13 @@
 											>Edit</a
 										>
 
-										<a
-											href="#"
-											class="hover:text-white bg-red-600 hover:bg-red-500 text-white p-2 rounded-sm"
-											>Delete</a
+										<span class="m-1"></span>
+										<button
+											@click="deleteTransfer(transfer)"
+											class="hover:text-white bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm"
 										>
+											Delete
+										</button>
 									</td>
 								</tr>
 							</tbody>
@@ -159,6 +161,20 @@
 			return {
 				showModal: false,
 			};
+		},
+		methods: {
+			editPurchase(purchase) {
+				this.showModal = true;
+				console.log(purchase.id);
+			},
+			deleteTransfer(transfers) {
+				let response = confirm(
+					`Are you sure you want to delete ${transfers.id}`
+				);
+				if (response) {
+					this.$store.dispatch("deleteTransfer", transfers);
+				}
+			},
 		},
 		computed: {
 			...mapActions({

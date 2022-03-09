@@ -64,36 +64,38 @@
 									>
 										Korbitec generation fee
 									</th>
-
-									<th scope="col" class="relative px-6 py-3">
-										<span class="sr-only">Edit</span>
+									<th
+										scope="col"
+										class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+									>
+										Actions
 									</th>
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								<tr v-for="transfer in this.purchaseData" :key="transfer.id">
+								<tr v-for="purchase in this.purchaseData" :key="purchase.id">
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="text-sm font-medium text-gray-900">
-												{{ transfer.id }}
+												{{ purchase.id }}
 											</div>
 										</div>
 									</td>
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="text-sm text-gray-500">
-												{{ transfer.start_amount | money }}
+												{{ purchase.start_amount | money }}
 											</div>
 										</div>
 									</td>
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="text-sm text-gray-500">
-											{{ transfer.end_amount | money }}
+											{{ purchase.end_amount | money }}
 										</div>
 									</td>
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="text-sm text-gray-500">
-											{{ transfer.vat_amount | money }}
+											{{ purchase.vat_amount | money }}
 										</div>
 									</td>
 									<td class="px-6 py-4 whitespace-nowrap">
@@ -101,23 +103,30 @@
 									</td>
 									<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 										<div class="text-sm text-gray-500">
-											{{ transfer.rate_applications | money }}
+											{{ purchase.rate_applications | money }}
 										</div>
 									</td>
 
 									<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 										<div class="text-sm text-gray-500">
-											{{ transfer.korbitec_gen_fee | money }}
+											{{ purchase.korbitec_gen_fee | money }}
 										</div>
 									</td>
 									<td
 										class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
 									>
 										<button
-											@click="editPurchase(transfer)"
+											@click="editPurchase(purchase)"
 											class="hover:text-white bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-sm"
 										>
 											Edit
+										</button>
+										<span class="m-1"></span>
+										<button
+											@click="deletePurchase(purchase)"
+											class="hover:text-white bg-red-600 hover:bg-red-700 text-white p-2 rounded-sm"
+										>
+											Delete
 										</button>
 									</td>
 								</tr>
@@ -175,6 +184,14 @@
 			editPurchase(purchase) {
 				this.showModal = true;
 				console.log(purchase.id);
+			},
+			deletePurchase(purchase) {
+				let response = confirm(
+					`Are you sure you want to delete ${purchase.id}`
+				);
+				if (response) {
+					this.$store.dispatch("deletePurchase", purchase);
+				}
 			},
 		},
 
