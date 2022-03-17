@@ -23,9 +23,19 @@ export const mutations = {
 
 	// set transferData
 	SET_BONDS_DATA(state, bonds) {
-		state.bondData.unshift(bond);
+		state.bondData.unshift(bonds);
 	},
 
+	//edit bond data
+	EDIT_BOND_DATA(state, bonds) {
+		state.bondData.forEach((b) => {
+			if (b.id == bonds.id) {
+				b = bonds;
+			}
+		});
+	},
+
+	// remove bond data
 	DELETE_BOND_DATA(state, bonds) {
 		let index = state.bondData.findIndex((t) => t.id == bonds.id);
 		state.bondData.splice(index, 1);
@@ -55,6 +65,9 @@ export const mutations = {
 	VAT_BOND(state, vatBond) {
 		state.vatBond = vatBond;
 	},
+	CLEAR_TOTALS(state) {
+		Object.assign(state, this.transferDuty);
+	},
 };
 
 export const actions = {
@@ -75,7 +88,6 @@ export const actions = {
 	setBondsData({ commit }, { payload, context }) {
 		return Bond.bondPost(payload)
 			.then((response) => {
-				console.log(response);
 				commit("SET_BONDS_DATA", payload);
 				return Promise.resolve();
 			})
@@ -84,12 +96,29 @@ export const actions = {
 			});
 	},
 
+	//edit the bond
+	editBondData({ commit }, { payload, context }) {
+		return Bond.bondUpdate(payload)
+			.then((response) => {
+				commit("EDIT_BOND_DATA", payload);
+				return Promise.resolve();
+			})
+			.catch((error) => {
+				context.errors = error.response.data.errors;
+			});
+	},
+
+	// remove the bond data
 	deleteBond({ commit }, bonds) {
 		return Bond.bondDelete(bonds).then((response) => {
 			if (response.status == 200 || response.status == 204) {
 				commit("DELETE_BOND_DATA", bonds.id);
 			}
 		});
+	},
+
+	clearTotals({ commit }, payload) {
+		commit("CLEAR_TOTALS", payload);
 	},
 
 	// get Vat amount

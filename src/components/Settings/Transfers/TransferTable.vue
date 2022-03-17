@@ -54,8 +54,11 @@
 										Description
 									</th>
 
-									<th scope="col" class="relative px-6 py-3">
-										<span class="sr-only">Edit</span>
+									<th
+										scope="col"
+										class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+									>
+										Actions
 									</th>
 								</tr>
 							</thead>
@@ -95,10 +98,13 @@
 									<td
 										class="flex align-center px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
 									>
-										<a
-											href="#"
+										<router-link
+											:to="{
+												name: 'transfer_details',
+												params: { id: transfer.id },
+											}"
 											class="hover:text-white mr-2 bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-sm"
-											>Edit</a
+											>Edit</router-link
 										>
 
 										<span class="m-1"></span>
@@ -144,6 +150,7 @@
 	import { mapActions, mapGetters } from "vuex";
 	import Goback from "../../Base/Goback.vue";
 	import transferForm from "./TransferForm.vue";
+	import superModal from "../../Base/superModal.vue";
 
 	export default {
 		name: "transferTable",
@@ -151,6 +158,7 @@
 		components: {
 			transferForm,
 			Goback,
+			superModal,
 		},
 
 		created() {
@@ -163,10 +171,6 @@
 			};
 		},
 		methods: {
-			editPurchase(purchase) {
-				this.showModal = true;
-				console.log(purchase.id);
-			},
 			deleteTransfer(transfers) {
 				let response = confirm(
 					`Are you sure you want to delete ${transfers.id}`

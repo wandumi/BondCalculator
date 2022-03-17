@@ -17,6 +17,15 @@ export const mutations = {
 		state.purchaseData.unshift(transfer);
 	},
 
+	//editing the transfer
+	EDIT_TRANSFER_DATA(state, transfer) {
+		state.transferData.forEach((t) => {
+			if (t.id == transfer.id) {
+				p = transfer;
+			}
+		});
+	},
+
 	DELETE_TRANSFER_DATA(state, transfer) {
 		let index = state.transferData.findIndex((t) => t.id == transfer.id);
 		state.transferData.splice(index, 1);
@@ -51,6 +60,21 @@ export const actions = {
 				context.errors = error.response.data.errors;
 			});
 	},
+
+	//edit the transfer
+	editTransfer({ commit }, { payload, context }) {
+		return transfer
+			.transferUpdate(payload)
+			.then((response) => {
+				commit("EDIT_TRANSFER_DATA", payload);
+				return Promise.resolve();
+			})
+			.catch((error) => {
+				context.errors = error.response.data.errors;
+			});
+	},
+
+	// remove the ransfer
 	deleteTranser({ commit }, transfer) {
 		return transfer.transferDelete(transfer).then((response) => {
 			if (response.status == 200 || response.status == 204) {
@@ -63,8 +87,6 @@ export const actions = {
 export const getters = {
 	// transferdata
 	getTransfer(state) {
-		return state.transferData.concat().sort((t1, t2) => {
-			t1.id - t2.id;
-		});
+		return state.transferData;
 	},
 };

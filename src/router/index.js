@@ -66,9 +66,20 @@ const routes = [
 		component: () => import("../views/Auth/Settings/Bonds.vue"),
 	},
 	{
+		path: "/bonds/:id",
+		name: "bond_details",
+		component: () => import("../components/Settings/Bonds/BondDetails.vue"),
+	},
+	{
 		path: "/purchases",
 		name: "Purchases",
 		component: () => import("../views/Auth/Settings/Purchases.vue"),
+	},
+	{
+		path: "/purchases/:id",
+		name: "purchase_details",
+		component: () =>
+			import("../components/Settings/Purchase/PurchaseDetails.vue"),
 	},
 	{
 		path: "/defaults",
@@ -76,9 +87,21 @@ const routes = [
 		component: () => import("../views/Auth/Settings/Defaults.vue"),
 	},
 	{
+		path: "/defaults/:id",
+		name: "default_details",
+		component: () =>
+			import("../components/Settings/Defaults/DefaultDetails.vue"),
+	},
+	{
 		path: "/transfers",
 		name: "Transfers",
 		component: () => import("../views/Auth/Settings/Transfers.vue"),
+	},
+	{
+		path: "/transfers/:id",
+		name: "transfer_details",
+		component: () =>
+			import("../components/Settings/Transfers/TransferDetails.vue"),
 	},
 ];
 

@@ -28,18 +28,7 @@
 									>
 										ID
 									</th>
-									<th
-										scope="col"
-										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-									>
-										Purchase price range
-									</th>
-									<th
-										scope="col"
-										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-									>
-										Vat Amount
-									</th>
+
 									<th
 										scope="col"
 										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -53,8 +42,11 @@
 										Electronic Fee
 									</th>
 
-									<th scope="col" class="relative px-6 py-3">
-										<span class="sr-only">Edit</span>
+									<th
+										scope="col"
+										class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+									>
+										Actions
 									</th>
 								</tr>
 							</thead>
@@ -69,20 +61,7 @@
 											</div>
 										</div>
 									</td>
-									<td class="px-6 py-4 whitespace-nowrap">
-										<div class="flex items-center">
-											<div class="ml-4">
-												<div class="text-sm text-gray-500">-------</div>
-											</div>
-										</div>
-									</td>
-									<td class="px-6 py-4 whitespace-nowrap">
-										<div class="flex items-center">
-											<div class="ml-4">
-												<div class="text-sm text-gray-500">0.06</div>
-											</div>
-										</div>
-									</td>
+
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="ml-4">
@@ -101,10 +80,13 @@
 									<td
 										class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
 									>
-										<a
-											href="#"
+										<router-link
+											:to="{
+												name: 'bond_details',
+												params: { id: bond.id },
+											}"
 											class="hover:text-white bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-sm"
-											>Edit</a
+											>Edit</router-link
 										>
 										<span class="m-1"></span>
 										<button
@@ -148,6 +130,7 @@
 	import { mapActions, mapGetters } from "vuex";
 	import bondform from "./BondForm.vue";
 	import goback from "../../../components/Base/Goback.vue";
+
 	export default {
 		name: "bondTable",
 
@@ -171,10 +154,6 @@
 			};
 		},
 		methods: {
-			editPurchase(purchase) {
-				this.showModal = true;
-				console.log(purchase.id);
-			},
 			deleteBond(bond) {
 				let response = confirm(`Are you sure you want to delete ${bond.id}`);
 				if (response) {

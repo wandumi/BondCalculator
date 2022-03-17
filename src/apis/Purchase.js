@@ -11,9 +11,13 @@ export default {
 		Csrf.getCookie();
 		return Api.post("/api/purchase_settings", form);
 	},
-	async purchaseUpdate(form) {
+	async purchaseEdit(purchase) {
 		Csrf.getCookie();
-		return Api.put("/api/purchase_settings", form);
+		return Api.get(`/api/purchase_settings/${purchase}`);
+	},
+	async purchaseUpdate(purchase) {
+		Csrf.getCookie();
+		return Api.post(`/api/purchase_settings/${purchase.id}`, purchase);
 	},
 	async purchaseDelete(purchase) {
 		Csrf.getCookie();

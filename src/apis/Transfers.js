@@ -7,13 +7,17 @@ export default {
 		// Csrf.getCookie();
 		return Api.get("/api/transfer_duty");
 	},
-	async transferPost(form) {
+	async transferPost(transfer) {
 		Csrf.getCookie();
-		return Api.post("/api/transfer_duty", form);
+		return Api.post("/api/transfer_duty", transfer);
 	},
-	async transferUpdate(form) {
+	async transferEdit(transfer) {
 		Csrf.getCookie();
-		return Api.put("/api/transfer_duty", form);
+		return Api.get(`/api/transfer_duty/${transfer}`);
+	},
+	async transferUpdate(transfer) {
+		Csrf.getCookie();
+		return Api.post(`/api/transfer_duty/${transfer.id}`, transfer);
 	},
 	async transferDelete(transfers) {
 		Csrf.getCookie();

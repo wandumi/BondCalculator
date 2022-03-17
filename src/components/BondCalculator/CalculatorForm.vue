@@ -88,7 +88,7 @@
 						<span class="m-3"></span>
 						<button
 							class="p-3 mt-1 block w-full rounded-md text-white bg-gray-600"
-							type="submit"
+							@click="resetButton"
 						>
 							Resert
 						</button>
@@ -142,6 +142,10 @@
 				this.$store.dispatch("getTransferDuty", this.transferDuty);
 				this.$store.dispatch("getVatBond", this.totalVatBond);
 				this.$store.dispatch("getBondTotal", this.totalBondCost);
+			},
+
+			resetButton() {
+				this.$store.dispatch("clearTotals");
 			},
 		},
 		computed: {
@@ -249,7 +253,7 @@
 
 				// totalCost * vat / 100
 
-				return parseFloat(totalCost * vat);
+				return totalCost * vat;
 			},
 
 			/**Bond Calculator */

@@ -11,12 +11,16 @@ export default {
 		Csrf.getCookie();
 		return Api.post("/api/bond_settings", form);
 	},
-	async bondUpdate(form) {
+	async bondEdit(bonds) {
 		Csrf.getCookie();
-		return Api.put("/api/bond_settings", form);
+		return Api.get(`/api/bond_settings/${bonds}`);
 	},
-	async bondDelete(bond) {
+	async bondUpdate(bonds) {
 		Csrf.getCookie();
-		return Api.delete(`/api/bond_settings/${bond.id}`);
+		return Api.post(`/api/bond_settings/${bonds.id}`, bonds);
+	},
+	async bondDelete(bonds) {
+		Csrf.getCookie();
+		return Api.delete(`/api/bond_settings/${bonds.id}`);
 	},
 };

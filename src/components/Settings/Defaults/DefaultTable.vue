@@ -58,8 +58,11 @@
 									>
 										Tarrif Fee
 									</th>
-									<th scope="col" class="relative px-6 py-3">
-										<span class="sr-only">Edit</span>
+									<th
+										scope="col"
+										class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+									>
+										Actions
 									</th>
 								</tr>
 							</thead>
@@ -105,10 +108,13 @@
 									<td
 										class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
 									>
-										<a
-											href="#"
+										<router-link
+											:to="{
+												name: 'default_details',
+												params: { id: common.id },
+											}"
 											class="hover:text-white bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-sm"
-											>Edit</a
+											>Edit</router-link
 										>
 										<span class="m-1"></span>
 										<button
@@ -168,10 +174,6 @@
 			this.getDefaultData;
 		},
 		methods: {
-			editPurchase(purchase) {
-				this.showModal = true;
-				console.log(purchase.id);
-			},
 			deleteDefault(common) {
 				let response = confirm(`Are you sure you want to delete ${common.id}`);
 				if (response) {

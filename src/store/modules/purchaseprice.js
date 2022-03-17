@@ -18,6 +18,16 @@ export const mutations = {
 		state.purchaseData.unshift(purchase);
 	},
 
+	//editing the purchase
+	EDIT_PURCHASE_DATA(state, purchase) {
+		state.purchaseData.forEach((p) => {
+			if (p.id == purchase.id) {
+				p = purchase;
+			}
+		});
+	},
+
+	// removing purchase
 	DELETE_PURCHASE_DATA(state, purchaseID) {
 		let purchase = state.purchaseData.filter((p) => p.id != purchaseID);
 		state.purchaseData = purchase;
@@ -25,7 +35,7 @@ export const mutations = {
 };
 
 export const actions = {
-	/** get the transaciton settings */
+	//get the purchase settings
 	getPurchaseData({ commit }) {
 		return purchase
 			.purchaseData()
@@ -38,7 +48,7 @@ export const actions = {
 			});
 	},
 
-	/** post the transfer Data */
+	//post the purchase Data
 	setPurchaseData({ commit }, { payload, context }) {
 		return purchase
 			.purchasePost(payload)
@@ -50,6 +60,21 @@ export const actions = {
 				context.errors = error.response.data.errors;
 			});
 	},
+
+	//edit the purchase
+	editPurchase({ commit }, { payload, context }) {
+		return purchase
+			.purchaseUpdate(payload)
+			.then((response) => {
+				commit("EDIT_PURCHASE_DATA", payload);
+				return Promise.resolve();
+			})
+			.catch((error) => {
+				context.errors = error.response.data.errors;
+			});
+	},
+
+	// remove the purchase
 	deletePurchase({ commit }, purchaseID) {
 		return purchase.purchaseDelete(purchaseID).then((response) => {
 			if (response.status == 200 || response.status == 204) {

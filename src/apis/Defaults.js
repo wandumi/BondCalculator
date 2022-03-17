@@ -11,9 +11,13 @@ export default {
 		Csrf.getCookie();
 		return Api.post("/api/default_settings", form);
 	},
-	async defaultUpdate(form) {
+	async defaultEdit(defaults) {
 		Csrf.getCookie();
-		return Api.put("/api/default_settings", form);
+		return Api.get(`/api/default_settings/${defaults}`);
+	},
+	async defaultUpdate(defaults) {
+		Csrf.getCookie();
+		return Api.post(`/api/default_settings/${defaults.id}`, defaults);
 	},
 	async defaultDelete(defaults) {
 		Csrf.getCookie();

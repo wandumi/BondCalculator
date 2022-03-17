@@ -85,7 +85,7 @@
 					<!-- Button -->
 					<label class="block">
 						<button
-							class="p-3 mt-1 hover:bg-gray-800 block w-full rounded-md text-white bg-gray-600"
+							class="p-3 mt-1 block w-full rounded-md text-white bg-green-600 hover:bg-green-500"
 							type="submit"
 						>
 							Save
@@ -133,16 +133,3 @@
 		},
 	};
 </script>
-
-<style scoped>
-	.error {
-		border: red solid 2px;
-	}
-
-	.errorMessage {
-		background: red;
-		margin-top: 0.5rem;
-		padding: 0.8rem;
-		color: #fff;
-	}
-</style>

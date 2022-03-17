@@ -63,7 +63,7 @@
 							:class="{ 'border-red-500': errors.post_petties }"
 						/>
 						<span class="text-red-600" v-if="errors.post_petties">
-							{{ errors.electronic_gen_fee[0] }}
+							{{ errors.post_petties[0] }}
 						</span>
 					</label>
 
@@ -85,7 +85,7 @@
 					<!-- Button -->
 					<label class="block">
 						<button
-							class="p-3 mt-1 block w-full rounded-md text-white bg-gray-600"
+							class="p-3 mt-1 block w-full rounded-md text-white bg-green-600 hover:bg-green-500"
 							type="submit"
 						>
 							Save

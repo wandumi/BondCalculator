@@ -13,10 +13,21 @@ export const mutations = {
 		state.defaultData = products;
 	},
 
-	// set transferData
+	// save default Data
 	SET_DEFAULT_DATA(state, defaults) {
 		state.defaultData.unshift(defaults);
 	},
+
+	//edit default data
+	EDIT_DEFAULT_DATA(state, defaults) {
+		state.defaultData.forEach((d) => {
+			if (d.id == defaults.id) {
+				d = defaults;
+			}
+		});
+	},
+
+	// Remove default data
 	DELETE_DEFAULT_DATA(state, common) {
 		let defaults = state.defaultData.filter((d) => d.id != common);
 		state.defaultData = defaults;
@@ -38,17 +49,31 @@ export const actions = {
 	},
 	/** post the transfer Data */
 	setDefaultData({ commit }, { payload, context }) {
-		console.log(payload);
 		return defaults
 			.defaultPost(payload)
 			.then((response) => {
-				commit("SET_PURCHASE_DATA", payload);
+				commit("SET_DEFAULT_DATA", payload);
 				return Promise.resolve();
 			})
 			.catch((error) => {
 				context.errors = error.response.data.errors;
 			});
 	},
+
+	//edit the default
+	editDefaults({ commit }, { payload, context }) {
+		return defaults
+			.defaultUpdate(payload)
+			.then((response) => {
+				commit("EDIT_DEFAULT_DATA", payload);
+				return Promise.resolve();
+			})
+			.catch((error) => {
+				context.errors = error.response.data.errors;
+			});
+	},
+
+	// remove the delete
 	deleteDefaults({ commit }, value) {
 		return defaults.defaultDelete(value).then((response) => {
 			if (response.status == 200 || response.status == 204) {

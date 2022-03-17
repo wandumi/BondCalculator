@@ -5,7 +5,7 @@
 			<div>
 				<goback />
 				<button
-					@click="showModal = true"
+					@click="addPurchase()"
 					to="#"
 					class="bg-green-600 p-2 text-center text-white ml-2"
 				>
@@ -40,12 +40,7 @@
 									>
 										End amount
 									</th>
-									<th
-										scope="col"
-										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-									>
-										Vat amount
-									</th>
+
 									<th
 										scope="col"
 										class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -73,11 +68,14 @@
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								<tr v-for="purchase in this.purchaseData" :key="purchase.id">
+								<tr
+									v-for="(purchase, index) in this.purchaseData"
+									:key="purchase.id"
+								>
 									<td class="px-6 py-4 whitespace-nowrap">
 										<div class="flex items-center">
 											<div class="text-sm font-medium text-gray-900">
-												{{ purchase.id }}
+												{{ index + 1 }}
 											</div>
 										</div>
 									</td>
@@ -98,9 +96,7 @@
 											{{ purchase.vat_amount | money }}
 										</div>
 									</td>
-									<td class="px-6 py-4 whitespace-nowrap">
-										<div class="text-sm text-gray-500">125,0000.00</div>
-									</td>
+
 									<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 										<div class="text-sm text-gray-500">
 											{{ purchase.rate_applications | money }}
@@ -115,12 +111,15 @@
 									<td
 										class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
 									>
-										<button
-											@click="editPurchase(purchase)"
+										<router-link
+											:to="{
+												name: 'purchase_details',
+												params: { id: purchase.id },
+											}"
 											class="hover:text-white bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-sm"
 										>
 											Edit
-										</button>
+										</router-link>
 										<span class="m-1"></span>
 										<button
 											@click="deletePurchase(purchase)"
@@ -143,9 +142,8 @@
 			<div class="fixed insert-0 z-10" @click="showModal = false"></div>
 			<div class="bg-white shadow rounded-md px-6 py-4 max-w-lg w-full z-20">
 				<div class="my-2">
-					<purchase-form />
+					<PurchaseForm />
 				</div>
-
 				<div class="mt-2">
 					<button
 						class="bg-gray-600 hover:bg-gray-800 text-white p-3 rounded w-full"
@@ -163,6 +161,7 @@
 	import { mapActions, mapGetters } from "vuex";
 	import PurchaseForm from "./PurchaseForm.vue";
 	import Goback from "../../Base/Goback.vue";
+
 	export default {
 		name: "purchaseData",
 		components: {
@@ -177,14 +176,35 @@
 
 		data() {
 			return {
+				form: {
+					start_amount: "",
+					end_amount: "",
+					vat_amount: "",
+					rate_applications: "",
+					korbitec_gen_fee: "",
+				},
+				errors: [],
 				showModal: false,
+				modal: null,
 			};
 		},
 		methods: {
-			editPurchase(purchase) {
-				this.showModal = true;
-				console.log(purchase.id);
+			...mapActions({
+				purchase: "setPurchaseData",
+			}),
+
+			onSubmit() {
+				this.purchase({
+					payload: this.form,
+					context: this,
+				});
 			},
+
+			addPurchase() {
+				this.showModal = true;
+				this.modal = "add";
+			},
+
 			deletePurchase(purchase) {
 				let response = confirm(
 					`Are you sure you want to delete ${purchase.id}`
